@@ -1,6 +1,7 @@
 package es.upm.miw.SolitarioCelta;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -94,6 +95,10 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.opcAcercaDe:
                 startActivity(new Intent(this, AcercaDe.class));
+                return true;
+            case R.id.opcReiniciarPartida:
+                DialogFragment reiniciarDialog = (DialogFragment) new ReiniciarDialogFragment();
+                reiniciarDialog.show(getFragmentManager(), "reiniciar");
                 return true;
 
             // TODO!!! resto opciones
