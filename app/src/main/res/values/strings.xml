@@ -31,5 +31,9 @@
     <string name="txtDialogoReiniciarTitulo">Confirmación</string>
     <string name="txtDialogoReiniciarPregunta">¿Desea reiniciar la partida?</string>
 
+    <!-- Dialogo RecuperarPartida -->
+    <string name="txtDialogoRecuperarTitulo">Confirmación</string>
+    <string name="txtDialogoRecuperarPregunta">¿Está seguro que desea abandonar esta partida y recuperar la guardada?</string>
+
 
 </resources>

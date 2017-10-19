@@ -5,18 +5,24 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
 
 	JuegoCelta juego;
     private final String GRID_KEY = "GRID_KEY";
+    private final String LOG_TAG = "MiW";
     private static final String fichero = "PartidaGuardada";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -103,9 +109,18 @@ public class MainActivity extends Activity {
             case R.id.opcReiniciarPartida:
                 DialogFragment reiniciarDialog = (DialogFragment) new ReiniciarDialogFragment();
                 reiniciarDialog.show(getFragmentManager(), "reiniciar");
+                Log.i(LOG_TAG, "Reiniciar partida");
                 return true;
             case R.id.opcGuardarPartida:
                 guardarPartida();
+                return true;
+            case R.id.opcRecuperarPartida:
+                if (juego.numeroFichas()!=32){
+                    DialogFragment recuperarDialog = (DialogFragment) new RecuperarPartidaDialogFragment();
+                    recuperarDialog.show(getFragmentManager(), "recuperar");
+                } else {
+                    recuperarPartida();
+                }
                 return true;
 
             // TODO!!! resto opciones
@@ -128,7 +143,29 @@ public class MainActivity extends Activity {
             fos.write('\n');
             fos.close();
             Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "Partida guardada");
         } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    public void recuperarPartida(){
+        try {
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
+            String linea = fin.readLine();
+            if (linea != null) {
+                juego.deserializaTablero(linea);
+                mostrarTablero();
+            }
+            fin.close();
+            Toast.makeText(this, "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "Partida recuperada");
+        } catch (FileNotFoundException e){
+            Toast.makeText(this, "No existen partidas guardadas.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "No existen partidas guardadas.");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
     }
