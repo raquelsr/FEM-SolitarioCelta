@@ -2,6 +2,7 @@ package es.upm.miw.SolitarioCelta;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+
 public class MainActivity extends Activity {
 
 	JuegoCelta juego;
     private final String GRID_KEY = "GRID_KEY";
+    private static final String fichero = "PartidaGuardada";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +104,9 @@ public class MainActivity extends Activity {
                 DialogFragment reiniciarDialog = (DialogFragment) new ReiniciarDialogFragment();
                 reiniciarDialog.show(getFragmentManager(), "reiniciar");
                 return true;
+            case R.id.opcGuardarPartida:
+                guardarPartida();
+                return true;
 
             // TODO!!! resto opciones
 
@@ -111,5 +118,18 @@ public class MainActivity extends Activity {
                 ).show();
         }
         return true;
+    }
+
+    public void guardarPartida(){
+        try {
+            String cadenaJuego = juego.serializaTablero();
+            FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+            fos.write(cadenaJuego.getBytes());
+            fos.write('\n');
+            fos.close();
+            Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
