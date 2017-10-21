@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="es.upm.miw.SolitarioCelta.MejoresResultados">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="Posición"
-            android:textColor="@android:color/background_dark" />
-
-        <TextView
+            android:id="@+id/tv_Partidajugador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,15 +15,17 @@
             android:textColor="@android:color/background_dark" />
 
         <TextView
+            android:id="@+id/tv_Partidafichas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Número de fichas"
+            android:text="Fichas"
             android:textColor="@android:color/background_dark" />
 
         <TextView
+            android:id="@+id/tv_Partidafecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,6 +35,7 @@
             android:textColor="@android:color/background_dark" />
 
         <TextView
+            android:id="@+id/tv_Partidahora"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -56,12 +43,5 @@
             android:paddingTop="10dp"
             android:text="Hora"
             android:textColor="@android:color/background_dark" />
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/list_resultados"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>
-

@@ -67,6 +67,10 @@ class JuegoCelta {
         return numFichas;
     }
 
+    public void setNumeroFichas(int nfichas){
+		this.numFichas = nfichas;
+	}
+
     /**
      * Determina si el movimiento (i1, j1) a (i2, j2) es aceptable
      * @param i1 fila origen

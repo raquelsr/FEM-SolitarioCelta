@@ -26,6 +26,7 @@ public class ReiniciarDialogFragment extends DialogFragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 main.juego.reiniciar();
                                 main.mostrarTablero();
+                                main.actualizarNumeroFichas();
                             }
                         }
                 )

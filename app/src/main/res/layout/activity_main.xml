@@ -192,5 +192,15 @@
             android:layout_toRightOf="@id/p63"
             android:layout_below="@id/p54"/>
 
+        <TextView
+            android:id="@+id/tv_numeroFichas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/p62"
+            android:layout_marginEnd="13dp"
+            android:layout_marginTop="20dp"
+            android:layout_toStartOf="@+id/p41"
+            android:text="Número de fichas: " />
+
     </RelativeLayout>
 </LinearLayout>

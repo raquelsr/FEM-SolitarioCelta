@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MejoresResultados" />
+        <activity android:name=".PartidasGuardadas"></activity>
     </application>
 
 </manifest>

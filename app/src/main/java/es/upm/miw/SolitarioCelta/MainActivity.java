@@ -12,19 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.StreamCorruptedException;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
+import es.upm.miw.SolitarioCelta.models.Partida;
+import es.upm.miw.SolitarioCelta.models.RepositorioPartidasDBHelper;
 import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
 
 public class MainActivity extends Activity {
@@ -34,7 +32,10 @@ public class MainActivity extends Activity {
     private final String LOG_TAG = "MiW";
     private static final String fichero = "PartidaGuardada";
 
-    RepositorioResultadoDBHelper db;
+    RepositorioResultadoDBHelper db_resultados;
+    RepositorioPartidasDBHelper db_partidas;
+
+    TextView tv_nfichas;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         juego = new JuegoCelta();
         mostrarTablero();
+        actualizarNumeroFichas();
+
+        if (getIntent().getExtras()!=null){
+            Partida partida = getIntent().getExtras().getParcelable("Partida");
+            juego.deserializaTablero(partida.getEstadoPartida());
+            juego.setNumeroFichas(partida.getNumero_piezas());
+        }
+
+        mostrarTablero();
+        actualizarNumeroFichas();
     }
 
     @Override
@@ -68,6 +79,7 @@ public class MainActivity extends Activity {
         int j = resourceName.charAt(2) - '0';   // columna
 
         juego.jugar(i, j);
+        actualizarNumeroFichas();
 
         mostrarTablero();
         if (juego.juegoTerminado()) {
@@ -136,14 +148,15 @@ public class MainActivity extends Activity {
                 Log.i(LOG_TAG, "Reiniciar partida");
                 return true;
             case R.id.opcGuardarPartida:
-                guardarPartida();
+                guardarPartidaBBDD();
                 return true;
             case R.id.opcRecuperarPartida:
                 if (juego.numeroFichas()!=32){
                     DialogFragment recuperarDialog = (DialogFragment) new RecuperarPartidaDialogFragment();
                     recuperarDialog.show(getFragmentManager(), "recuperar");
                 } else {
-                    recuperarPartida();
+                    //recuperarPartida();
+                    mostrarPartidasGuardadas();
                 }
                 return true;
             case R.id.opcMejoresResultados:
@@ -177,6 +190,30 @@ public class MainActivity extends Activity {
         }
     }
 
+    public void guardarPartidaBBDD(){
+        db_partidas = new RepositorioPartidasDBHelper(getApplicationContext());
+
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+        String jugador = preferencias.getString(
+                getResources().getString(R.string.keyNombreJugador),
+                getResources().getString(R.string.defaultNombreJugador)
+        );
+
+        Calendar date = Calendar.getInstance();
+        String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+        String minutos = (date.get(Calendar.MINUTE)) < 10
+                ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
+                :  String.valueOf(date.get(Calendar.MINUTE));
+
+        String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
+
+        String estado = juego.serializaTablero();
+
+        long id = db_partidas.add(jugador, fecha, hora, juego.numeroFichas(), estado);
+        Log.i("MiW", "PartidaGuardada2" + String.valueOf(id));
+        Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
+    }
+
     public void recuperarPartida(){
         try {
             BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
@@ -198,7 +235,7 @@ public class MainActivity extends Activity {
     }
 
     public void guardarResultado(){
-        db = new RepositorioResultadoDBHelper(getApplicationContext());
+        db_resultados = new RepositorioResultadoDBHelper(getApplicationContext());
 
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
         String jugador = preferencias.getString(
@@ -214,12 +251,22 @@ public class MainActivity extends Activity {
 
         String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
 
-        long id = db.add(jugador, fecha, hora, juego.numeroFichas());
+        long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas());
         Log.i("MiW", String.valueOf(id));
+    }
+
+    public void mostrarPartidasGuardadas(){
+        Intent intent = new Intent(this, PartidasGuardadas.class);
+        startActivity(intent);
     }
 
     public void mostrarMejoresResultados(){
         Intent intent = new Intent(this, MejoresResultados.class);
         startActivity(intent);
+    }
+
+    public void actualizarNumeroFichas(){
+        tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
+        tv_nfichas.setText("Número de fichas: " + (String.valueOf(juego.numeroFichas())));
     }
 }

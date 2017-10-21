@@ -25,7 +25,8 @@ public class RecuperarPartidaDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                main.recuperarPartida();
+                                //main.recuperarPartida();
+                                main.mostrarPartidasGuardadas();
                             }
                         }
                 )

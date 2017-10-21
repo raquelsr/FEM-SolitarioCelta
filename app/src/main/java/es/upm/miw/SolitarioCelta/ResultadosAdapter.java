@@ -42,14 +42,21 @@ public class ResultadosAdapter extends ArrayAdapter {
 
         Resultado resultado = resultados.get(position);
         if (resultado != null) {
-            TextView tv_id = (TextView) convertView.findViewById(R.id.tv_id);
-            tv_id.setText(String.valueOf(resultado.getId()));
+
+            TextView tv_posicion = (TextView) convertView.findViewById(R.id.tv_posicion);
+            tv_posicion.setText(String.valueOf(position+1));
 
             TextView tv_jugador = (TextView) convertView.findViewById(R.id.tv_jugador);
             tv_jugador.setText(resultado.getJugador());
 
             TextView tv_fichas = (TextView) convertView.findViewById(R.id.tv_fichas);
             tv_fichas.setText(String.valueOf(resultado.getNumero_piezas()));
+
+            TextView tv_fecha = (TextView) convertView.findViewById(R.id.tv_fecha);
+            tv_fecha.setText(resultado.getDia());
+
+            TextView tv_hora = (TextView) convertView.findViewById(R.id.tv_hora);
+            tv_hora.setText(resultado.getHora());
         }
 
         return convertView;
