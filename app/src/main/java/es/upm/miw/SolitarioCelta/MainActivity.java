@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.StreamCorruptedException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
+import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
 
 public class MainActivity extends Activity {
 
@@ -25,12 +34,27 @@ public class MainActivity extends Activity {
     private final String LOG_TAG = "MiW";
     private static final String fichero = "PartidaGuardada";
 
+    RepositorioResultadoDBHelper db;
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         juego = new JuegoCelta();
         mostrarTablero();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+        String jugador = preferencias.getString(
+                getResources().getString(R.string.keyNombreJugador),
+                getResources().getString(R.string.defaultNombreJugador)
+        );
+    }
+
 
     /**
      * Se ejecuta al pulsar una ficha
@@ -47,7 +71,7 @@ public class MainActivity extends Activity {
 
         mostrarTablero();
         if (juego.juegoTerminado()) {
-            // TODO guardar puntuación
+            guardarResultado();
             new AlertDialogFragment().show(getFragmentManager(), "ALERT_DIALOG");
         }
     }
@@ -122,6 +146,9 @@ public class MainActivity extends Activity {
                     recuperarPartida();
                 }
                 return true;
+            case R.id.opcMejoresResultados:
+                mostrarMejoresResultados();
+                return true;
 
             // TODO!!! resto opciones
 
@@ -168,5 +195,31 @@ public class MainActivity extends Activity {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
+    }
+
+    public void guardarResultado(){
+        db = new RepositorioResultadoDBHelper(getApplicationContext());
+
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+        String jugador = preferencias.getString(
+                getResources().getString(R.string.keyNombreJugador),
+                getResources().getString(R.string.defaultNombreJugador)
+        );
+
+        Calendar date = Calendar.getInstance();
+        String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+        String minutos = (date.get(Calendar.MINUTE)) < 10
+                ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
+                :  String.valueOf(date.get(Calendar.MINUTE));
+
+        String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
+
+        long id = db.add(jugador, fecha, hora, juego.numeroFichas());
+        Log.i("MiW", String.valueOf(id));
+    }
+
+    public void mostrarMejoresResultados(){
+        Intent intent = new Intent(this, MejoresResultados.class);
+        startActivity(intent);
     }
 }

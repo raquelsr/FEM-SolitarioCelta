@@ -24,6 +24,8 @@
     <string name="preferencesText">Ajustes</string>
     <string name="prefTituloCategoria1">Datos personales</string>
     <string name="prefTituloNombreJugador">Nombre del jugador</string>
+    <string name="keyNombreJugador">nombreJugador</string>
+    <string name="defaultNombreJugador">Raquel</string>
     <string name="prefTextoNombreJugador">Pulse para teclear el nombre del jugador</string>
     <string name="prefTituloCategoria2">Ajustes del juego</string>
 
@@ -35,5 +37,8 @@
     <string name="txtDialogoRecuperarTitulo">Confirmación</string>
     <string name="txtDialogoRecuperarPregunta">¿Está seguro que desea abandonar esta partida y recuperar la guardada?</string>
 
-
+    <!-- Dialogo Eliminar resultados -->
+    <string name="txtDialogoEliminarResultadosTitulo">Confirmación</string>
+    <string name="txtDialogoEliminarResultadosPregunta">¿Desea eliminar los mejores resultados?</string>
+    <string name="title_activity_prueba">prueba</string>
 </resources>
