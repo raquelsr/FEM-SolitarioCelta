@@ -6,7 +6,6 @@
         android:id="@+id/opcEliminarResultados"
         android:title="Eliminar"
         android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

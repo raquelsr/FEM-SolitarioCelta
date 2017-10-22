@@ -71,6 +71,17 @@ public class MainActivity extends Activity {
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
+        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
+
+
+        Log.i("MiW", "onSTART: Nombre Fichero = " );
+    }
 
     @Override
     protected void onResume() {
@@ -84,44 +95,54 @@ public class MainActivity extends Activity {
         String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
         String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
 
+        color = Color.WHITE;
+        colorLetra = Color.BLACK;
 
-        if (prefColor.equals("Azul")) {
-            color = Color.BLUE;
-            colorLetra = Color.WHITE;
-        } else if (prefColor.equals("Verde")){
-            color = Color.GREEN;
-            colorLetra = Color.BLACK;
-        } else if (prefColor.equals("Rojo")){
-            color = Color.RED;
-            colorLetra = Color.WHITE;
-        } else {
-            color = Color.WHITE;
-            colorLetra = Color.BLACK;
+        if (prefColor!=null){
+            if (prefColor.equals("Azul")) {
+                color = Color.CYAN;
+                colorLetra = Color.WHITE;
+            } else if (prefColor.equals("Verde")){
+                color = Color.GREEN;
+                colorLetra = Color.BLACK;
+            } else if (prefColor.equals("Rojo")) {
+                color = Color.RED;
+                colorLetra = Color.WHITE;
+            } else if (prefColor.equals("Amarillo")) {
+                color = Color.YELLOW;
+                colorLetra = Color.BLACK;
+            } else if (prefColor.equals("Rosa")){
+                color = Color.MAGENTA;
+                colorLetra = Color.WHITE;
+            } else if (prefColor.equals("Blanco")) {
+                color = Color.WHITE;
+                colorLetra = Color.BLACK;
+            }
+
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
+            layout.setBackgroundColor(color);
+
+            LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
+            layout1.setBackgroundColor(color);
+
+            LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
+            layout2.setBackgroundColor(color);
+
+            tv_nfichas.setTextColor(colorLetra);
+            cronometro.setTextColor(colorLetra);
         }
 
-        if (prefTamaño.equals("Grande")){
-            tamaño = 24;
-        } else if (prefTamaño.equals("Pequeño")){
-            tamaño = 10;
-        } else {
-            tamaño = 16;
+        if (prefTamaño!=null){
+            if (prefTamaño.equals("Grande")){
+                tamaño = 24;
+            } else if (prefTamaño.equals("Pequeño")){
+                tamaño = 10;
+            } else {
+                tamaño = 16;
+            }
+            tv_nfichas.setTextSize(tamaño);
+            cronometro.setTextSize(tamaño);
         }
-
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
-        layout.setBackgroundColor(color);
-
-        LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
-        layout1.setBackgroundColor(color);
-
-        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
-        layout2.setBackgroundColor(color);
-
-
-        tv_nfichas.setTextSize(tamaño);
-        tv_nfichas.setTextColor(colorLetra);
-        cronometro.setTextSize(tamaño);
-        cronometro.setTextColor(colorLetra);
-
     }
 
     /**
