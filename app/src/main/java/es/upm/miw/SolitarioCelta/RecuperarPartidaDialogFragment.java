@@ -21,7 +21,7 @@ public class RecuperarPartidaDialogFragment extends DialogFragment {
         builder.setTitle(getString(R.string.txtDialogoRecuperarTitulo))
                 .setMessage(getString(R.string.txtDialogoRecuperarPregunta))
                 .setPositiveButton(
-                        getString(R.string.txtDialogoFinalAfirmativo),
+                        getString(R.string.txtDialogoAfirmativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -31,7 +31,7 @@ public class RecuperarPartidaDialogFragment extends DialogFragment {
                         }
                 )
                 .setNegativeButton(
-                        getString(R.string.txtDialogoFinalNegativo),
+                        getString(R.string.txtDialogoNegativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.SystemClock;
 
 /**
  * Created by Raquel on 19/10/17.
@@ -20,18 +21,19 @@ public class ReiniciarDialogFragment extends DialogFragment {
         builder.setTitle(getString(R.string.txtDialogoReiniciarTitulo))
                 .setMessage(getString(R.string.txtDialogoReiniciarPregunta))
                 .setPositiveButton(
-                        getString(R.string.txtDialogoFinalAfirmativo),
+                        getString(R.string.txtDialogoAfirmativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 main.juego.reiniciar();
                                 main.mostrarTablero();
-                                main.actualizarInformacion();
+                                main.actualizarNumeroFichas();
+                                main.actualizarCronometro(SystemClock.elapsedRealtime());
                             }
                         }
                 )
                 .setNegativeButton(
-                        getString(R.string.txtDialogoFinalNegativo),
+                        getString(R.string.txtDialogoNegativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

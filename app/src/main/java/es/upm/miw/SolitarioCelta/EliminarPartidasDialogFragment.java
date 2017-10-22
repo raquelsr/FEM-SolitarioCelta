@@ -10,23 +10,23 @@ import android.os.Bundle;
  * Created by Raquel on 21/10/17.
  */
 
-public class EliminarResultadosDialogFragment extends DialogFragment {
+public class EliminarPartidasDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final MejoresResultados activity = (MejoresResultados) getActivity();
+        final PartidasGuardadas activity = (PartidasGuardadas) getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder
-                .setTitle(R.string.txtDialogoEliminarResultadosTitulo)
-                .setMessage(R.string.txtDialogoEliminarResultadosPregunta)
+                .setTitle(R.string.txtDialogoEliminarPartidasTitulo)
+                .setMessage(R.string.txtDialogoEliminarPartidasPregunta)
                 .setPositiveButton(
                         getString(R.string.txtDialogoAfirmativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                activity.eliminarResultados();
+                                activity.eliminarPartidas();
                             }
                         }
                 )

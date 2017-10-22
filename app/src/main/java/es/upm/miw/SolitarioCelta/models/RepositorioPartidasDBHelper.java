@@ -118,4 +118,10 @@ public class RepositorioPartidasDBHelper extends SQLiteOpenHelper {
         db.close();
         return partida;
     }
+
+    public void deleteAll (){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String deleteSQL = "DELETE FROM " + tablaPartidas.TABLE_NAME;
+        db.execSQL(deleteSQL);
+    }
 }

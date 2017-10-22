@@ -38,7 +38,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".MejoresResultados" />
-        <activity android:name=".PartidasGuardadas"></activity>
+        <activity android:name=".PartidasGuardadas" />
+        <activity
+            android:name=".FiltroFichas"
+            android:label="Numero de Fichas"
+            android:theme="@android:style/Theme.Holo.Dialog">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FiltroJugador"
+            android:label="Nombre del jugador"
+            android:theme="@android:style/Theme.Holo.Dialog">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>></activity>
     </application>
 
 </manifest>

@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +53,7 @@ public class MainActivity extends Activity {
         juego = new JuegoCelta();
         cronometro = (Chronometer) findViewById(R.id.cronometro);
 
+
         if (getIntent().getExtras()!=null){
             Partida partida = getIntent().getExtras().getParcelable("Partida");
             juego.deserializaTablero(partida.getEstadoPartida());
@@ -63,7 +66,7 @@ public class MainActivity extends Activity {
             cronometro.setBase(savedInstanceState.getLong(CRONOMETRO_KEY));
         }
         mostrarTablero();
-        actualizarInformacion();
+        actualizarNumeroFichas();
         cronometro.start();
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
@@ -75,21 +78,25 @@ public class MainActivity extends Activity {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         int color;
+        int colorLetra;
         int tamaño;
 
-        System.out.println("WHITEEEEE " + Color.WHITE);
         String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
         String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
 
 
         if (prefColor.equals("Azul")) {
             color = Color.BLUE;
+            colorLetra = Color.WHITE;
         } else if (prefColor.equals("Verde")){
             color = Color.GREEN;
+            colorLetra = Color.BLACK;
         } else if (prefColor.equals("Rojo")){
             color = Color.RED;
+            colorLetra = Color.WHITE;
         } else {
             color = Color.WHITE;
+            colorLetra = Color.BLACK;
         }
 
         if (prefTamaño.equals("Grande")){
@@ -103,8 +110,17 @@ public class MainActivity extends Activity {
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
         layout.setBackgroundColor(color);
 
+        LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
+        layout1.setBackgroundColor(color);
+
+        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
+        layout2.setBackgroundColor(color);
+
+
         tv_nfichas.setTextSize(tamaño);
+        tv_nfichas.setTextColor(colorLetra);
         cronometro.setTextSize(tamaño);
+        cronometro.setTextColor(colorLetra);
 
     }
 
@@ -120,7 +136,7 @@ public class MainActivity extends Activity {
         int j = resourceName.charAt(2) - '0';   // columna
 
         juego.jugar(i, j);
-        actualizarInformacion();
+        actualizarNumeroFichas();
 
         mostrarTablero();
         if (juego.juegoTerminado()) {
@@ -175,7 +191,7 @@ public class MainActivity extends Activity {
         juego.setNumeroFichas(nfichas);
 
         mostrarTablero();
-        actualizarInformacion();
+        actualizarNumeroFichas();
         cronometro.setBase(cronometroBase);
     }
 
@@ -196,17 +212,17 @@ public class MainActivity extends Activity {
             case R.id.opcReiniciarPartida:
                 DialogFragment reiniciarDialog = (DialogFragment) new ReiniciarDialogFragment();
                 reiniciarDialog.show(getFragmentManager(), "reiniciar");
-                Log.i(LOG_TAG, "Reiniciar partida");
+                Log.i(LOG_TAG, "Reiniciar partida. ");
                 return true;
             case R.id.opcGuardarPartida:
-                guardarPartidaBBDD();
+                DialogFragment guardarDialog = (DialogFragment) new GuardarPartidaDialogFragment();
+                guardarDialog.show(getFragmentManager(), "guardarPartida");
                 return true;
             case R.id.opcRecuperarPartida:
                 if (juego.numeroFichas()!=32){
                     DialogFragment recuperarDialog = (DialogFragment) new RecuperarPartidaDialogFragment();
                     recuperarDialog.show(getFragmentManager(), "recuperar");
                 } else {
-                    //recuperarPartida();
                     mostrarPartidasGuardadas();
                 }
                 return true;
@@ -226,20 +242,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    public void guardarPartida(){
-        try {
-            String cadenaJuego = juego.serializaTablero();
-            FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
-            fos.write(cadenaJuego.getBytes());
-            fos.write('\n');
-            fos.close();
-            Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "Partida guardada");
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "ERROR: " + e);
-            e.printStackTrace();
-        }
-    }
 
     public void guardarPartidaBBDD(){
         db_partidas = new RepositorioPartidasDBHelper(getApplicationContext());
@@ -261,10 +263,28 @@ public class MainActivity extends Activity {
         String estado = juego.serializaTablero();
 
         long id = db_partidas.add(jugador, fecha, hora, juego.numeroFichas(), estado, cronometro.getText().toString(), String.valueOf(cronometro.getBase()));
-        Log.i("MiW", "PartidaGuardada2" + String.valueOf(id));
+        Log.i(LOG_TAG, "Partida guardada en BBDD : id " + String.valueOf(id));
         Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
     }
 
+    // FICHEROS, FINALMENTE NO SE UTILIZA. SE UTILIZA BBDD.
+    //Guarda partida en fichero, como se ha implementado guardar varias partidas serán guardadas en bbdd
+    public void guardarPartida(){
+        try {
+            String cadenaJuego = juego.serializaTablero();
+            FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+            fos.write(cadenaJuego.getBytes());
+            fos.write('\n');
+            fos.close();
+            Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "Partida guardada");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    //Recupera la partida de ficheros, como se guarda en bbdd, no se utiliza porque se recupera de bbdd
     public void recuperarPartida(){
         try {
             BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
@@ -275,7 +295,7 @@ public class MainActivity extends Activity {
             }
             fin.close();
             Toast.makeText(this, "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "Partida recuperada");
+            Log.i(LOG_TAG, "Partida recuperada.");
         } catch (FileNotFoundException e){
             Toast.makeText(this, "No existen partidas guardadas.", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "No existen partidas guardadas.");
@@ -303,7 +323,7 @@ public class MainActivity extends Activity {
         String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
 
         long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas(), cronometro.getText().toString());
-        Log.i("MiW", String.valueOf(id));
+        Log.i("MiW", "");
     }
 
     public void mostrarPartidasGuardadas(){
@@ -316,9 +336,13 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void actualizarInformacion(){
+    public void actualizarNumeroFichas(){
         tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
         tv_nfichas.setText("Número de fichas: " + (String.valueOf(juego.numeroFichas())));
+    }
+
+    public void actualizarCronometro(long tiempo){
+        cronometro.setBase(tiempo);
         cronometro.start();
     }
 }

@@ -16,7 +16,7 @@ public class AlertDialogFragment extends DialogFragment {
                 .setTitle(R.string.txtDialogoFinalTitulo)
                 .setMessage(R.string.txtDialogoFinalPregunta)
                 .setPositiveButton(
-                        getString(R.string.txtDialogoFinalAfirmativo),
+                        getString(R.string.txtDialogoAfirmativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -26,7 +26,7 @@ public class AlertDialogFragment extends DialogFragment {
                         }
                 )
                 .setNegativeButton(
-                        getString(R.string.txtDialogoFinalNegativo),
+                        getString(R.string.txtDialogoNegativo),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

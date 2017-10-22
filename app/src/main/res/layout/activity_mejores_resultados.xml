@@ -7,6 +7,58 @@
     android:orientation="vertical"
     tools:context="es.upm.miw.SolitarioCelta.MejoresResultados">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/background_dark"
+        android:text="Filtrar por:"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbtn_fichas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="mostrarDialogFichas"
+                android:text="Número de fichas" />
+
+            <RadioButton
+                android:id="@+id/rbtn_jugador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="mostrarDialogJugador"
+                android:layout_weight="1"
+                android:text="Jugador" />
+
+            <RadioButton
+                android:id="@+id/rbtn_sinfiltro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="mostrarResultadosSinFiltro"
+                android:text="Sin Filtro" />
+        </RadioGroup>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,45 +70,51 @@
             android:layout_weight="1"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            android:text="Posición"
-            android:textColor="@android:color/background_dark" />
+            android:text="Nº"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="15dp"
+            android:paddingLeft="45dp"
             android:paddingTop="10dp"
             android:text="Jugador"
-            android:textColor="@android:color/background_dark" />
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="15dp"
+            android:paddingLeft="45dp"
             android:paddingTop="10dp"
-            android:text="Número de fichas"
-            android:textColor="@android:color/background_dark" />
+            android:text="Fichas"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="15dp"
+            android:paddingLeft="45dp"
             android:paddingTop="10dp"
-            android:text="Fecha"
-            android:textColor="@android:color/background_dark" />
+            android:text="Tiempo"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:text="Hora"
-            android:textColor="@android:color/background_dark" />
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/barraEstadoResultados"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/holo_blue_dark"/>
 
     <ListView
         android:id="@+id/list_resultados"

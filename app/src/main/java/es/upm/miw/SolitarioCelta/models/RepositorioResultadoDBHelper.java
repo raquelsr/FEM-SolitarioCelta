@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import static es.upm.miw.SolitarioCelta.models.ResultadoContract.tablaResultados;
 
-public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
+public class RepositorioResultadoDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = tablaResultados.TABLE_NAME + ".db";
     private static final int DB_VERSION = 1;
@@ -56,7 +56,7 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
         return db.insert(tablaResultados.TABLE_NAME, null, valores);
     }
 
-    public ArrayList<Resultado> getAll () {
+    public ArrayList<Resultado> getAll() {
 
         String consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME;
         ArrayList<Resultado> listresultados = new ArrayList();
@@ -86,9 +86,19 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
         return listresultados;
     }
 
-    public ArrayList<Resultado> getBest () {
+    public ArrayList<Resultado> getMejoresResultados(String nfichas, String jugador) {
 
-        String consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS;
+        String consultaSQL;
+        if (!nfichas.equals("")) {
+            consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " WHERE " + tablaResultados.COL_NUMEROFICHAS + " = " + nfichas
+                    + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
+        } else if (!jugador.equals("")) {
+            consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " WHERE " + tablaResultados.COL_JUGADOR + " = \"" + jugador + "\""
+                    + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
+        } else {
+            consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
+        }
+
         ArrayList<Resultado> listresultados = new ArrayList();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -116,7 +126,39 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
         return listresultados;
     }
 
-    public void deleteScore (){
+    public ArrayList<Resultado> getResultadoFiltro(String nfichas, String jugador) {
+
+
+        String consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
+
+        ArrayList<Resultado> listresultados = new ArrayList();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(consultaSQL, null);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                Resultado resultado = new Resultado(
+                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_ID)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_JUGADOR)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_FECHA)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_HORA)),
+                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_TIEMPO))
+                );
+
+                listresultados.add(resultado);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        db.close();
+
+        return listresultados;
+    }
+
+    public void deleteScore() {
         SQLiteDatabase db = this.getReadableDatabase();
         String deleteSQL = "DELETE FROM " + tablaResultados.TABLE_NAME;
         db.execSQL(deleteSQL);

@@ -34,33 +34,14 @@
             android:textColor="@android:color/background_dark" />
 
         <TextView
-            android:id="@+id/tv_fecha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:text="Fecha"
-            android:textColor="@android:color/background_dark" />
-
-        <TextView
-            android:id="@+id/tv_hora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:text="Hora"
-            android:textColor="@android:color/background_dark" />
-
-        <TextView
             android:id="@+id/tv_tiempo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Hora"
+            android:text="Tiempo"
             android:textColor="@android:color/background_dark" />
+
 
 </LinearLayout>

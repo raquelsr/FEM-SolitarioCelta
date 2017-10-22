@@ -7,26 +7,24 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
- * Created by Raquel on 21/10/17.
+ * Created by Raquel on 22/10/17.
  */
 
-public class EliminarResultadosDialogFragment extends DialogFragment {
-
+public class GuardarPartidaDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        final MejoresResultados activity = (MejoresResultados) getActivity();
+        final MainActivity main = (MainActivity) getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder
-                .setTitle(R.string.txtDialogoEliminarResultadosTitulo)
-                .setMessage(R.string.txtDialogoEliminarResultadosPregunta)
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.txtDialogoGuardarPartidaTitulo))
+                .setMessage(getString(R.string.txtDialogoGuardarPartidaPregunta))
                 .setPositiveButton(
                         getString(R.string.txtDialogoAfirmativo),
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                activity.eliminarResultados();
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                main.guardarPartidaBBDD();
                             }
                         }
                 )
@@ -34,11 +32,13 @@ public class EliminarResultadosDialogFragment extends DialogFragment {
                         getString(R.string.txtDialogoNegativo),
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Acción opción No
                             }
                         }
                 );
 
         return builder.create();
     }
+
 }

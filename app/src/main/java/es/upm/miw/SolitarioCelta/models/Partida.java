@@ -18,7 +18,7 @@ public class Partida implements Parcelable {
     private String cronometroTxt;
     private String cronometroBase;
 
-    public Partida(){
+    public Partida() {
 
     }
 
