@@ -1,4 +1,4 @@
-package es.upm.miw.SolitarioCelta;
+package es.upm.miw.SolitarioCelta.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import es.upm.miw.SolitarioCelta.R;
 import es.upm.miw.SolitarioCelta.models.Resultado;
 
 /**
@@ -53,10 +54,13 @@ public class ResultadosAdapter extends ArrayAdapter {
             tv_fichas.setText(String.valueOf(resultado.getNumero_piezas()));
 
             TextView tv_fecha = (TextView) convertView.findViewById(R.id.tv_fecha);
-            tv_fecha.setText(resultado.getDia());
+            tv_fecha.setText(resultado.getFecha());
 
             TextView tv_hora = (TextView) convertView.findViewById(R.id.tv_hora);
             tv_hora.setText(resultado.getHora());
+
+            TextView tv_tiempo = (TextView) convertView.findViewById(R.id.tv_tiempo);
+            tv_tiempo.setText(resultado.getTiempo());
         }
 
         return convertView;

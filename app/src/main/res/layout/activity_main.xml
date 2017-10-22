@@ -13,6 +13,7 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:id="@+id/layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -196,11 +197,18 @@
             android:id="@+id/tv_numeroFichas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/p62"
-            android:layout_marginEnd="13dp"
-            android:layout_marginTop="20dp"
-            android:layout_toStartOf="@+id/p41"
-            android:text="Número de fichas: " />
+            android:text="Número de fichas: "
+            android:layout_alignBaseline="@+id/p02"
+            android:layout_alignBottom="@+id/p02"
+            android:layout_toStartOf="@+id/p21" />
+
+        <Chronometer
+            android:id="@+id/cronometro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/p26" />
 
     </RelativeLayout>
 </LinearLayout>

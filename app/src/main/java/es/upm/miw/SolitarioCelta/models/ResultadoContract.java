@@ -18,5 +18,6 @@ public class ResultadoContract {
         static final String COL_FECHA = "fecha";
         static final String COL_HORA = "hora";
         static final String COL_NUMEROFICHAS = "numero_fichas";
+        static final String COL_TIEMPO = "tiempo";
     }
 }

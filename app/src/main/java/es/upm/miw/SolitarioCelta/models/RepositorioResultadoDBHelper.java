@@ -30,7 +30,8 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
                 tablaResultados.COL_JUGADOR + " TEXT, " +
                 tablaResultados.COL_FECHA + " TEXT, " +
                 tablaResultados.COL_HORA + " TEXT, " +
-                tablaResultados.COL_NUMEROFICHAS + " INTEGER" + " )";
+                tablaResultados.COL_NUMEROFICHAS + " INTEGER, " +
+                tablaResultados.COL_TIEMPO + " TEXT " + " )";
         db.execSQL(createSQL);
     }
 
@@ -41,7 +42,7 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public long add(String jugador, String fecha, String hora, int numeroFichas) {
+    public long add(String jugador, String fecha, String hora, int numeroFichas, String tiempo) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -50,6 +51,7 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
         valores.put(tablaResultados.COL_FECHA, fecha);
         valores.put(tablaResultados.COL_HORA, hora);
         valores.put(tablaResultados.COL_NUMEROFICHAS, numeroFichas);
+        valores.put(tablaResultados.COL_TIEMPO, tiempo);
 
         return db.insert(tablaResultados.TABLE_NAME, null, valores);
     }
@@ -69,7 +71,8 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_JUGADOR)),
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_FECHA)),
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_HORA)),
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS))
+                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_TIEMPO))
                 );
 
                 listresultados.add(resultado);
@@ -98,7 +101,8 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper{
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_JUGADOR)),
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_FECHA)),
                         cursor.getString(cursor.getColumnIndex(tablaResultados.COL_HORA)),
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS))
+                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS)),
+                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_TIEMPO))
                 );
 
                 listresultados.add(resultado);

@@ -28,6 +28,13 @@
     <string name="defaultNombreJugador">Raquel</string>
     <string name="prefTextoNombreJugador">Pulse para teclear el nombre del jugador</string>
     <string name="prefTituloCategoria2">Ajustes del juego</string>
+    <string name="prefTituloColor">Color de fondo</string>
+    <string name="keyColor">colorFondo</string>
+    <string name="defaultColor">#FFFFFF</string>
+    <string name="prefTituloTamaño">Tamaño de letra</string>
+    <string name="keyTamaño">tamaño</string>
+    <string name="defaultTamaño">16</string>
+
 
     <!-- Dialogo Reiniciar -->
     <string name="txtDialogoReiniciarTitulo">Confirmación</string>

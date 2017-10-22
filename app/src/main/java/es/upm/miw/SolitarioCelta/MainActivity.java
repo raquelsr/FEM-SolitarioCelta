@@ -5,13 +5,16 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,9 @@ public class MainActivity extends Activity {
 
 	JuegoCelta juego;
     private final String GRID_KEY = "GRID_KEY";
+    private final String FICHAS_KEY = "FICHAS_KEY";
+    private final String CRONOMETRO_KEY = "CRONOMETRO_KEY";
+
     private final String LOG_TAG = "MiW";
     private static final String fichero = "PartidaGuardada";
 
@@ -36,36 +42,71 @@ public class MainActivity extends Activity {
     RepositorioPartidasDBHelper db_partidas;
 
     TextView tv_nfichas;
+    Chronometer cronometro;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         juego = new JuegoCelta();
-        mostrarTablero();
-        actualizarNumeroFichas();
+        cronometro = (Chronometer) findViewById(R.id.cronometro);
 
         if (getIntent().getExtras()!=null){
             Partida partida = getIntent().getExtras().getParcelable("Partida");
             juego.deserializaTablero(partida.getEstadoPartida());
             juego.setNumeroFichas(partida.getNumero_piezas());
+            cronometro.setBase(Long.valueOf(partida.getCronometroBase()));
         }
 
+        if (savedInstanceState!=null){
+            juego.setNumeroFichas(savedInstanceState.getInt(FICHAS_KEY));
+            cronometro.setBase(savedInstanceState.getLong(CRONOMETRO_KEY));
+        }
         mostrarTablero();
-        actualizarNumeroFichas();
+        actualizarInformacion();
+        cronometro.start();
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
+
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
-        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
-        String jugador = preferencias.getString(
-                getResources().getString(R.string.keyNombreJugador),
-                getResources().getString(R.string.defaultNombreJugador)
-        );
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int color;
+        int tamaño;
+
+        System.out.println("WHITEEEEE " + Color.WHITE);
+        String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
+        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
+
+
+        if (prefColor.equals("Azul")) {
+            color = Color.BLUE;
+        } else if (prefColor.equals("Verde")){
+            color = Color.GREEN;
+        } else if (prefColor.equals("Rojo")){
+            color = Color.RED;
+        } else {
+            color = Color.WHITE;
+        }
+
+        if (prefTamaño.equals("Grande")){
+            tamaño = 24;
+        } else if (prefTamaño.equals("Pequeño")){
+            tamaño = 10;
+        } else {
+            tamaño = 16;
+        }
+
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
+        layout.setBackgroundColor(color);
+
+        tv_nfichas.setTextSize(tamaño);
+        cronometro.setTextSize(tamaño);
+
     }
-
 
     /**
      * Se ejecuta al pulsar una ficha
@@ -79,10 +120,12 @@ public class MainActivity extends Activity {
         int j = resourceName.charAt(2) - '0';   // columna
 
         juego.jugar(i, j);
-        actualizarNumeroFichas();
+        actualizarInformacion();
 
         mostrarTablero();
         if (juego.juegoTerminado()) {
+            cronometro = (Chronometer) findViewById(R.id.cronometro);
+            cronometro.stop();
             guardarResultado();
             new AlertDialogFragment().show(getFragmentManager(), "ALERT_DIALOG");
         }
@@ -114,6 +157,8 @@ public class MainActivity extends Activity {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(GRID_KEY, juego.serializaTablero());
+        outState.putInt(FICHAS_KEY, juego.numeroFichas());
+        outState.putLong(CRONOMETRO_KEY, cronometro.getBase());
         super.onSaveInstanceState(outState);
     }
 
@@ -124,8 +169,14 @@ public class MainActivity extends Activity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         String grid = savedInstanceState.getString(GRID_KEY);
+        int nfichas = savedInstanceState.getInt(FICHAS_KEY);
+        long cronometroBase = savedInstanceState.getLong(CRONOMETRO_KEY);
         juego.deserializaTablero(grid);
+        juego.setNumeroFichas(nfichas);
+
         mostrarTablero();
+        actualizarInformacion();
+        cronometro.setBase(cronometroBase);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,7 +260,7 @@ public class MainActivity extends Activity {
 
         String estado = juego.serializaTablero();
 
-        long id = db_partidas.add(jugador, fecha, hora, juego.numeroFichas(), estado);
+        long id = db_partidas.add(jugador, fecha, hora, juego.numeroFichas(), estado, cronometro.getText().toString(), String.valueOf(cronometro.getBase()));
         Log.i("MiW", "PartidaGuardada2" + String.valueOf(id));
         Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
     }
@@ -251,7 +302,7 @@ public class MainActivity extends Activity {
 
         String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
 
-        long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas());
+        long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas(), cronometro.getText().toString());
         Log.i("MiW", String.valueOf(id));
     }
 
@@ -265,8 +316,9 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    public void actualizarNumeroFichas(){
+    public void actualizarInformacion(){
         tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
         tv_nfichas.setText("Número de fichas: " + (String.valueOf(juego.numeroFichas())));
+        cronometro.start();
     }
 }

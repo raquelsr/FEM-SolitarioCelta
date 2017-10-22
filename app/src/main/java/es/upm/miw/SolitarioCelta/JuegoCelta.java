@@ -66,7 +66,6 @@ class JuegoCelta {
     public int numeroFichas() {
         return numFichas;
     }
-
     public void setNumeroFichas(int nfichas){
 		this.numFichas = nfichas;
 	}

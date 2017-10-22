@@ -15,18 +15,22 @@ public class Partida implements Parcelable {
     private String hora;
     private int numero_piezas;
     private String estadoPartida;
+    private String cronometroTxt;
+    private String cronometroBase;
 
     public Partida(){
 
     }
 
-    public Partida(int id, String jugador, String fecha, String hora, int numero_piezas, String estadoPartida) {
+    public Partida(int id, String jugador, String fecha, String hora, int numero_piezas, String estadoPartida, String cronometroTxt, String cronometroBase) {
         this.id = id;
         this.jugador = jugador;
         this.fecha = fecha;
         this.hora = hora;
         this.numero_piezas = numero_piezas;
         this.estadoPartida = estadoPartida;
+        this.cronometroBase = cronometroBase;
+        this.cronometroTxt = cronometroTxt;
     }
 
     public int getId() {
@@ -73,6 +77,22 @@ public class Partida implements Parcelable {
         this.estadoPartida = estadoPartida;
     }
 
+    public String getCronometroTxt() {
+        return cronometroTxt;
+    }
+
+    public void setCronometroTxt(String cronometroTxt) {
+        this.cronometroTxt = cronometroTxt;
+    }
+
+    public String getCronometroBase() {
+        return cronometroBase;
+    }
+
+    public void setCronometroBase(String cronometroBase) {
+        this.cronometroBase = cronometroBase;
+    }
+
 
     @Override
     public int describeContents() {
@@ -87,6 +107,8 @@ public class Partida implements Parcelable {
         dest.writeString(this.hora);
         dest.writeInt(this.numero_piezas);
         dest.writeString(this.estadoPartida);
+        dest.writeString(this.cronometroTxt);
+        dest.writeString(this.cronometroBase);
     }
 
     protected Partida(Parcel in) {
@@ -96,6 +118,8 @@ public class Partida implements Parcelable {
         this.hora = in.readString();
         this.numero_piezas = in.readInt();
         this.estadoPartida = in.readString();
+        this.cronometroTxt = in.readString();
+        this.cronometroBase = in.readString();
     }
 
     public static final Creator<Partida> CREATOR = new Creator<Partida>() {

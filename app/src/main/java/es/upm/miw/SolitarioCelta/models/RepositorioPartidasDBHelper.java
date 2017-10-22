@@ -14,7 +14,7 @@ import static es.upm.miw.SolitarioCelta.models.PartidaContract.tablaPartidas;
  * Created by Raquel on 21/10/17.
  */
 
-public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
+public class RepositorioPartidasDBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = tablaPartidas.TABLE_NAME + ".db";
     private static final int DB_VERSION = 1;
@@ -31,7 +31,9 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
                 tablaPartidas.COL_FECHA + " TEXT, " +
                 tablaPartidas.COL_HORA + " TEXT, " +
                 tablaPartidas.COL_NUMEROFICHAS + " INTEGER, " +
-                tablaPartidas.COL_ESTADO + " TEXT " + " )";
+                tablaPartidas.COL_ESTADO + " TEXT, " +
+                tablaPartidas.COL_CRONOMETROTXT + " TEXT, " +
+                tablaPartidas.COL_CRONOMETROBASE + " TEXT " + " )";
         db.execSQL(createSQL);
     }
 
@@ -42,7 +44,7 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long add(String jugador, String fecha, String hora, int numeroFichas, String estado) {
+    public long add(String jugador, String fecha, String hora, int numeroFichas, String estado, String cronometroTxt, String cronometroBase) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -52,12 +54,14 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
         valores.put(tablaPartidas.COL_HORA, hora);
         valores.put(tablaPartidas.COL_NUMEROFICHAS, numeroFichas);
         valores.put(tablaPartidas.COL_ESTADO, estado);
+        valores.put(tablaPartidas.COL_CRONOMETROTXT, cronometroTxt);
+        valores.put(tablaPartidas.COL_CRONOMETROBASE, cronometroBase);
 
         return db.insert(tablaPartidas.TABLE_NAME, null, valores);
     }
 
 
-    public ArrayList<Partida> getAll () {
+    public ArrayList<Partida> getAll() {
 
         String consultaSQL = "SELECT * FROM " + tablaPartidas.TABLE_NAME;
         ArrayList<Partida> listPartidas = new ArrayList();
@@ -73,7 +77,9 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_FECHA)),
                         cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_HORA)),
                         cursor.getInt(cursor.getColumnIndex(tablaPartidas.COL_NUMEROFICHAS)),
-                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_ESTADO))
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_ESTADO)),
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_CRONOMETROTXT)),
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_CRONOMETROBASE))
                 );
                 listPartidas.add(partida);
                 cursor.moveToNext();
@@ -85,7 +91,7 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
         return listPartidas;
     }
 
-    public Partida get (int id) {
+    public Partida get(int id) {
 
         String consultaSQL = "SELECT * FROM " + tablaPartidas.TABLE_NAME + " WHERE _ID=" + id;
 
@@ -95,13 +101,15 @@ public class RepositorioPartidasDBHelper  extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
-                 partida = new Partida(
+                partida = new Partida(
                         cursor.getInt(cursor.getColumnIndex(tablaPartidas.COL_ID)),
                         cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_JUGADOR)),
                         cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_FECHA)),
                         cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_HORA)),
                         cursor.getInt(cursor.getColumnIndex(tablaPartidas.COL_NUMEROFICHAS)),
-                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_ESTADO))
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_ESTADO)),
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_CRONOMETROTXT)),
+                        cursor.getString(cursor.getColumnIndex(tablaPartidas.COL_CRONOMETROBASE))
                 );
                 cursor.moveToNext();
             }

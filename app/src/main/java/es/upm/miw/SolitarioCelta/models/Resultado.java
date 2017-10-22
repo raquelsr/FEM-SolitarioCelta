@@ -17,13 +17,15 @@ public class Resultado implements Parcelable {
     private String fecha;
     private String hora;
     private int numero_piezas;
+    private String tiempo;
 
-    public Resultado(int id, String jugador, String fecha, String hora, int numero_piezas) {
+    public Resultado(int id, String jugador, String fecha, String hora, int numero_piezas, String tiempo) {
         this.id = id;
         this.jugador = jugador;
         this.fecha = fecha;
         this.hora = hora;
         this.numero_piezas = numero_piezas;
+        this.tiempo = tiempo;
     }
 
     public int getId() {
@@ -38,11 +40,11 @@ public class Resultado implements Parcelable {
         this.jugador = jugador;
     }
 
-    public String getDia() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setDia(String dia) {
+    public void setFecha(String dia) {
         this.fecha = dia;
     }
 
@@ -62,6 +64,14 @@ public class Resultado implements Parcelable {
         this.numero_piezas = numero_piezas;
     }
 
+    public String getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
+    }
+
 
     @Override
     public int describeContents() {
@@ -75,6 +85,7 @@ public class Resultado implements Parcelable {
         dest.writeString(this.fecha);
         dest.writeString(this.hora);
         dest.writeInt(this.numero_piezas);
+        dest.writeString(this.tiempo);
     }
 
     protected Resultado(Parcel in) {
@@ -83,6 +94,7 @@ public class Resultado implements Parcelable {
         this.fecha = in.readString();
         this.hora = in.readString();
         this.numero_piezas = in.readInt();
+        this.tiempo = in.readString();
     }
 
     public static final Creator<Resultado> CREATOR = new Creator<Resultado>() {

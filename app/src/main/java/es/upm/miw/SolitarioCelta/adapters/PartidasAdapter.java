@@ -1,4 +1,4 @@
-package es.upm.miw.SolitarioCelta;
+package es.upm.miw.SolitarioCelta.adapters;
 
 import android.content.Context;
 import android.icu.text.MessagePattern;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import es.upm.miw.SolitarioCelta.R;
 import es.upm.miw.SolitarioCelta.models.Partida;
 import es.upm.miw.SolitarioCelta.models.Resultado;
 

@@ -1,24 +1,19 @@
 package es.upm.miw.SolitarioCelta;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import es.upm.miw.SolitarioCelta.adapters.PartidasAdapter;
 import es.upm.miw.SolitarioCelta.models.Partida;
 import es.upm.miw.SolitarioCelta.models.RepositorioPartidasDBHelper;
-import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
-import es.upm.miw.SolitarioCelta.models.Resultado;
 
 public class PartidasGuardadas extends Activity {
 

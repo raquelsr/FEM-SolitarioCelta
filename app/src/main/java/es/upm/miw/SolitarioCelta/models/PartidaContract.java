@@ -19,5 +19,7 @@ public class PartidaContract {
         static final String COL_HORA = "hora";
         static final String COL_NUMEROFICHAS = "numero_fichas";
         static final String COL_ESTADO = "estado";
+        static final String COL_CRONOMETROTXT = "cronometroTxt";
+        static final String COL_CRONOMETROBASE = "cronometroBase";
     }
 }
