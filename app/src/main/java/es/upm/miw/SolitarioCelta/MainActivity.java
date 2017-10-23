@@ -5,14 +5,18 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,23 +54,28 @@ public class MainActivity extends Activity {
 
 
         if (getIntent().getExtras()!=null){
-            Partida partida = getIntent().getExtras().getParcelable("Partida");
-            juego.deserializaTablero(partida.getEstadoPartida());
-            juego.setNumeroFichas(partida.getNumero_piezas());
-            cronometro.setBase(Long.valueOf(partida.getCronometroBase()));
+            if (getIntent().getExtras().getParcelable("Partida")!=null){
+                Partida partida = getIntent().getExtras().getParcelable("Partida");
+                juego.deserializaTablero(partida.getEstadoPartida());
+                juego.setNumeroFichas(partida.getNumero_piezas());
+
+                String[] ms = partida.getCronometroTxt().split(":");
+                long baseTime = SystemClock.elapsedRealtime() - (Integer.valueOf(ms[0])*60000 + Integer.valueOf(ms[1])*1000);
+                cronometro.setBase(baseTime);
+            }
         }
 
         if (savedInstanceState!=null){
             juego.setNumeroFichas(savedInstanceState.getInt(FICHAS_KEY));
             cronometro.setBase(savedInstanceState.getLong(CRONOMETRO_KEY));
         }
+
         mostrarTablero();
         actualizarNumeroFichas();
         cronometro.start();
-        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
 
-   /* @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -85,7 +94,7 @@ public class MainActivity extends Activity {
         cronometro.setTextSize(16);
 
     }
-
+*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -146,7 +155,7 @@ public class MainActivity extends Activity {
             tv_nfichas.setTextSize(tamaño);
             cronometro.setTextSize(tamaño);
         }
-    }*/
+    }
 
     /**
      * Se ejecuta al pulsar una ficha
@@ -411,6 +420,7 @@ public class MainActivity extends Activity {
         long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas(), cronometro.getText().toString());
         Log.i("MiW", "");
     }
+
 
     /*
     public void mostrarPartidasGuardadas(){

@@ -2,6 +2,7 @@ package es.upm.miw.SolitarioCelta;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import es.upm.miw.SolitarioCelta.adapters.PartidasAdapter;
@@ -49,6 +51,10 @@ public class PartidasGuardadas extends Activity {
         final ListView lista = (ListView) findViewById(R.id.list_partidas);
 
         final ArrayList<Partida> partidas = getIntent().getExtras().getParcelableArrayList("partidas");
+
+        if(partidas.isEmpty()){
+            Toast.makeText(this, "No existen partidas", Toast.LENGTH_SHORT).show();
+        }
 
         PartidasAdapter adapter = new PartidasAdapter(getApplicationContext(), partidas);
         lista.setAdapter(adapter);
@@ -97,11 +103,16 @@ public class PartidasGuardadas extends Activity {
         dialog.show(getFragmentManager(), "eliminarPartidas");
     }
 
-    public void eliminarPartidas(){
-        getApplicationContext().deleteFile("PartidaGuardada");
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        Toast.makeText(this, "Se han eliminado todos las partidas correctamente.", Toast.LENGTH_SHORT).show();
+    public void eliminarPartidas() {
+        try {
+            FileOutputStream fos = openFileOutput("PartidaGuardada", Context.MODE_PRIVATE);
+            fos.close();
+            Toast.makeText(this, "El fichero ha sido borrado", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
