@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -13,9 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +20,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import es.upm.miw.SolitarioCelta.models.Partida;
-import es.upm.miw.SolitarioCelta.models.RepositorioPartidasDBHelper;
 import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
 
 public class MainActivity extends Activity {
@@ -40,7 +37,6 @@ public class MainActivity extends Activity {
     private static final String fichero = "PartidaGuardada";
 
     RepositorioResultadoDBHelper db_resultados;
-    RepositorioPartidasDBHelper db_partidas;
 
     TextView tv_nfichas;
     Chronometer cronometro;
@@ -70,7 +66,7 @@ public class MainActivity extends Activity {
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
     }
 
-    @Override
+   /* @Override
     protected void onStart() {
         super.onStart();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -150,7 +146,7 @@ public class MainActivity extends Activity {
             tv_nfichas.setTextSize(tamaño);
             cronometro.setTextSize(tamaño);
         }
-    }
+    }*/
 
     /**
      * Se ejecuta al pulsar una ficha
@@ -158,6 +154,7 @@ public class MainActivity extends Activity {
      * tiene un identificador en formato pXY, donde X es la fila e Y la columna
      * @param v Vista de la ficha pulsada
      */
+
     public void fichaPulsada(View v) {
         String resourceName = getResources().getResourceEntryName(v.getId());
         int i = resourceName.charAt(1) - '0';   // fila
@@ -238,20 +235,20 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(this, AcercaDe.class));
                 return true;
             case R.id.opcReiniciarPartida:
-                DialogFragment reiniciarDialog = (DialogFragment) new ReiniciarDialogFragment();
+                DialogFragment reiniciarDialog = new ReiniciarDialogFragment();
                 reiniciarDialog.show(getFragmentManager(), "reiniciar");
                 Log.i(LOG_TAG, "Reiniciar partida. ");
                 return true;
             case R.id.opcGuardarPartida:
-                DialogFragment guardarDialog = (DialogFragment) new GuardarPartidaDialogFragment();
+                DialogFragment guardarDialog = new GuardarPartidaDialogFragment();
                 guardarDialog.show(getFragmentManager(), "guardarPartida");
                 return true;
             case R.id.opcRecuperarPartida:
                 if (juego.numeroFichas()!=32){
-                    DialogFragment recuperarDialog = (DialogFragment) new RecuperarPartidaDialogFragment();
+                    DialogFragment recuperarDialog = new RecuperarPartidaDialogFragment();
                     recuperarDialog.show(getFragmentManager(), "recuperar");
                 } else {
-                    mostrarPartidasGuardadas();
+                    mostrarPartidas();
                 }
                 return true;
             case R.id.opcMejoresResultados:
@@ -270,7 +267,7 @@ public class MainActivity extends Activity {
         return true;
     }
 
-
+/*
     public void guardarPartidaBBDD(){
         db_partidas = new RepositorioPartidasDBHelper(getApplicationContext());
 
@@ -294,15 +291,44 @@ public class MainActivity extends Activity {
         Log.i(LOG_TAG, "Partida guardada en BBDD : id " + String.valueOf(id));
         Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
     }
-
+*/
     // FICHEROS, FINALMENTE NO SE UTILIZA. SE UTILIZA BBDD.
     //Guarda partida en fichero, como se ha implementado guardar varias partidas serán guardadas en bbdd
     public void guardarPartida(){
         try {
+            FileOutputStream fos = openFileOutput(fichero, Context.MODE_APPEND);
+
             String cadenaJuego = juego.serializaTablero();
-            FileOutputStream fos = openFileOutput(fichero, Context.MODE_PRIVATE);
+
+            Calendar date = Calendar.getInstance();
+            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+            String minutos = (date.get(Calendar.MINUTE)) < 10
+                    ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
+                    :  String.valueOf(date.get(Calendar.MINUTE));
+
+            String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
+
+            SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+            String jugador = preferencias.getString(
+                    getResources().getString(R.string.keyNombreJugador),
+                    getResources().getString(R.string.defaultNombreJugador)
+            );
+
+            fos.write(jugador.getBytes());
+            fos.write(';');
             fos.write(cadenaJuego.getBytes());
+            fos.write(';');
+            fos.write(String.valueOf(juego.numeroFichas()).getBytes());
+            fos.write(';');
+            fos.write(fecha.getBytes());
+            fos.write(';');
+            fos.write(hora.getBytes());
+            fos.write(';');
+            fos.write(cronometro.getText().toString().getBytes());
+            fos.write(';');
+            fos.write(String.valueOf(cronometro.getBase()).getBytes());
             fos.write('\n');
+
             fos.close();
             Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "Partida guardada");
@@ -313,6 +339,7 @@ public class MainActivity extends Activity {
     }
 
     //Recupera la partida de ficheros, como se guarda en bbdd, no se utiliza porque se recupera de bbdd
+    /*
     public void recuperarPartida(){
         try {
             BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
@@ -331,7 +358,38 @@ public class MainActivity extends Activity {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
+    }*/
+
+    public void mostrarPartidas(){
+
+        ArrayList<Partida> partidas = new ArrayList<>();
+        try {
+
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
+            String linea = fin.readLine();
+            while (linea != null) {
+
+                String[] datosJuego = linea.split(";");
+                Partida partida = new Partida (datosJuego[0],datosJuego[1],Integer.valueOf(datosJuego[2]),datosJuego[3],datosJuego[4],datosJuego[5],datosJuego[6]);
+                partidas.add(partida);
+                linea = fin.readLine();
+            }
+            fin.close();
+
+            Intent i = new Intent(this, PartidasGuardadas.class);
+            i.putParcelableArrayListExtra("partidas", partidas);
+            startActivity(i);
+            Log.i(LOG_TAG, "Listado de partidas guardadas.");
+
+        } catch (FileNotFoundException e){
+            Toast.makeText(this, "No existen partidas guardadas.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "No existen partidas guardadas.");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
     }
+
 
     public void guardarResultado(){
         db_resultados = new RepositorioResultadoDBHelper(getApplicationContext());
@@ -354,11 +412,12 @@ public class MainActivity extends Activity {
         Log.i("MiW", "");
     }
 
+    /*
     public void mostrarPartidasGuardadas(){
         Intent intent = new Intent(this, PartidasGuardadas.class);
         startActivity(intent);
     }
-
+*/
     public void mostrarMejoresResultados(){
         Intent intent = new Intent(this, MejoresResultados.class);
         startActivity(intent);

@@ -21,7 +21,7 @@ public class GuardarPartidaDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                main.guardarPartidaBBDD();
+                                main.guardarPartida();
                             }
                         }
                 )

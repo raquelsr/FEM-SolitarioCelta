@@ -22,7 +22,7 @@ public class RecuperarPartidaDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                main.mostrarPartidasGuardadas();
+                                main.mostrarPartidas();
                             }
                         }
                 )

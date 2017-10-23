@@ -9,7 +9,6 @@ import android.os.Parcelable;
 
 public class Partida implements Parcelable {
 
-    private int id;
     private String jugador;
     private String fecha;
     private String hora;
@@ -19,8 +18,7 @@ public class Partida implements Parcelable {
     private String cronometroBase;
 
 
-    public Partida(int id, String jugador, String fecha, String hora, int numero_piezas, String estadoPartida, String cronometroTxt, String cronometroBase) {
-        this.id = id;
+    public Partida(String jugador, String estadoPartida, int numero_piezas, String fecha, String hora, String cronometroTxt, String cronometroBase) {
         this.jugador = jugador;
         this.fecha = fecha;
         this.hora = hora;
@@ -28,10 +26,6 @@ public class Partida implements Parcelable {
         this.estadoPartida = estadoPartida;
         this.cronometroBase = cronometroBase;
         this.cronometroTxt = cronometroTxt;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getJugador() {
@@ -98,7 +92,6 @@ public class Partida implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
         dest.writeString(this.jugador);
         dest.writeString(this.fecha);
         dest.writeString(this.hora);
@@ -109,7 +102,6 @@ public class Partida implements Parcelable {
     }
 
     protected Partida(Parcel in) {
-        this.id = in.readInt();
         this.jugador = in.readString();
         this.fecha = in.readString();
         this.hora = in.readString();

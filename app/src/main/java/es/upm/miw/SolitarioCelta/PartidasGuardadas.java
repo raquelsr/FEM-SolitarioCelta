@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import es.upm.miw.SolitarioCelta.adapters.PartidasAdapter;
 import es.upm.miw.SolitarioCelta.models.Partida;
-import es.upm.miw.SolitarioCelta.models.RepositorioPartidasDBHelper;
 
 public class PartidasGuardadas extends Activity {
 
@@ -26,7 +25,9 @@ public class PartidasGuardadas extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partidas_guardadas);
-        mostrarPartidasGuardadas();
+        if (getIntent().getExtras()!=null){
+            mostrarPartidasGuardadas();
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -47,7 +48,22 @@ public class PartidasGuardadas extends Activity {
     public void mostrarPartidasGuardadas(){
         final ListView lista = (ListView) findViewById(R.id.list_partidas);
 
-        RepositorioPartidasDBHelper db = new RepositorioPartidasDBHelper(getApplicationContext());
+        final ArrayList<Partida> partidas = getIntent().getExtras().getParcelableArrayList("partidas");
+
+        PartidasAdapter adapter = new PartidasAdapter(getApplicationContext(), partidas);
+        lista.setAdapter(adapter);
+
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Partida partida = partidas.get(position);
+                recuperarPartida(partida);
+                Log.i(LOG_TAG,  "Partida recuperada: id " + position);
+                Toast.makeText(getApplicationContext(), "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /*RepositorioPartidasDBHelper db = new RepositorioPartidasDBHelper(getApplicationContext());
         final ArrayList<Partida> partidas = db.getAll();
 
         if (partidas.isEmpty()){
@@ -66,12 +82,10 @@ public class PartidasGuardadas extends Activity {
                 Log.i(LOG_TAG,  "Partida recuperada: id " + position);
                 Toast.makeText(getApplicationContext(), "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
-    public void recuperarPartida(int id){
-        RepositorioPartidasDBHelper db = new RepositorioPartidasDBHelper(getApplicationContext());
-        Partida partida = db.get(id);
+    public void recuperarPartida(Partida partida){
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("Partida", partida);
         startActivity(intent);
@@ -84,9 +98,9 @@ public class PartidasGuardadas extends Activity {
     }
 
     public void eliminarPartidas(){
-        RepositorioPartidasDBHelper db = new RepositorioPartidasDBHelper(getApplicationContext());
-        db.deleteAll();
-        mostrarPartidasGuardadas();
+        getApplicationContext().deleteFile("PartidaGuardada");
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
         Toast.makeText(this, "Se han eliminado todos las partidas correctamente.", Toast.LENGTH_SHORT).show();
     }
 
