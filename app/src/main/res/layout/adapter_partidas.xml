@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,8 +12,9 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Jugador"
-            android:textColor="@android:color/background_dark" />
+            android:text="@string/jugador"
+            android:textColor="@android:color/background_dark"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:id="@+id/tv_Partidafichas"
@@ -21,8 +23,9 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Fichas"
-            android:textColor="@android:color/background_dark" />
+            android:text="@string/fichas"
+            android:textColor="@android:color/background_dark"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:id="@+id/tv_Partidafecha"
@@ -31,8 +34,9 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Fecha"
-            android:textColor="@android:color/background_dark" />
+            android:text="@string/fecha"
+            android:textColor="@android:color/background_dark"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:id="@+id/tv_Partidahora"
@@ -41,7 +45,8 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Hora"
-            android:textColor="@android:color/background_dark" />
+            android:text="@string/hora"
+            android:textColor="@android:color/background_dark"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
 </LinearLayout>

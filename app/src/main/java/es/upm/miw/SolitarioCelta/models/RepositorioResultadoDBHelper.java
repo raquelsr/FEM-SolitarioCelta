@@ -56,36 +56,6 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper {
         return db.insert(tablaResultados.TABLE_NAME, null, valores);
     }
 
-    public ArrayList<Resultado> getAll() {
-
-        String consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME;
-        ArrayList<Resultado> listresultados = new ArrayList();
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                Resultado resultado = new Resultado(
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_ID)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_JUGADOR)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_FECHA)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_HORA)),
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_TIEMPO))
-                );
-
-                listresultados.add(resultado);
-                cursor.moveToNext();
-            }
-        }
-
-        cursor.close();
-        db.close();
-
-        return listresultados;
-    }
-
     public ArrayList<Resultado> getMejoresResultados(String nfichas, String jugador) {
 
         String consultaSQL;
@@ -98,38 +68,6 @@ public class RepositorioResultadoDBHelper extends SQLiteOpenHelper {
         } else {
             consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
         }
-
-        ArrayList<Resultado> listresultados = new ArrayList();
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(consultaSQL, null);
-
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                Resultado resultado = new Resultado(
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_ID)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_JUGADOR)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_FECHA)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_HORA)),
-                        cursor.getInt(cursor.getColumnIndex(tablaResultados.COL_NUMEROFICHAS)),
-                        cursor.getString(cursor.getColumnIndex(tablaResultados.COL_TIEMPO))
-                );
-
-                listresultados.add(resultado);
-                cursor.moveToNext();
-            }
-        }
-
-        cursor.close();
-        db.close();
-
-        return listresultados;
-    }
-
-    public ArrayList<Resultado> getResultadoFiltro(String nfichas, String jugador) {
-
-
-        String consultaSQL = "SELECT * FROM " + tablaResultados.TABLE_NAME + " ORDER BY " + tablaResultados.COL_NUMEROFICHAS + " , " + tablaResultados.COL_TIEMPO;
 
         ArrayList<Resultado> listresultados = new ArrayList();
 

@@ -23,20 +23,18 @@
             android:id="@+id/tv_numeroFichas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="Número de fichas: "
+            android:textSize="16sp"
+            android:text="@string/txtNumeroFichas"
             android:textStyle="bold" />
 
         <Chronometer
             android:id="@+id/cronometro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_numeroFichas"
-            android:layout_toEndOf="@+id/p26"
             android:layout_weight="1"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
 

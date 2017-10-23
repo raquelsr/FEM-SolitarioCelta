@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -74,13 +73,21 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
-        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
+        String prefColor = pref.getString(getResources().getString(R.string.keyColor), getResources().getString(R.string.defaultColor));
+        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), getResources().getString(R.string.defaultTamaño));
 
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
+        layout.setBackgroundColor(Color.WHITE);
 
-        Log.i("MiW", "onSTART: Nombre Fichero = " );
+        LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
+        layout1.setBackgroundColor(Color.WHITE);
+
+        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
+        layout2.setBackgroundColor(Color.WHITE);
+        tv_nfichas.setTextSize(16);
+        cronometro.setTextSize(16);
+
     }
 
     @Override
@@ -92,8 +99,8 @@ public class MainActivity extends Activity {
         int colorLetra;
         int tamaño;
 
-        String prefColor = pref.getString(getResources().getString(R.string.keyColor), null);
-        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), null);
+        String prefColor = pref.getString(getResources().getString(R.string.keyColor), getResources().getString(R.string.defaultColor));
+        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), getResources().getString(R.string.defaultTamaño));
 
         color = Color.WHITE;
         colorLetra = Color.BLACK;

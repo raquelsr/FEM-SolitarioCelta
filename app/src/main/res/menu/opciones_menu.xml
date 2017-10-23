@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
         android:id="@+id/opcReiniciarPartida"
@@ -7,21 +8,21 @@
         android:icon="@drawable/restart"
         android:orderInCategory="5"
         android:showAsAction="ifRoom|withText"
-        />
+        tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/opcGuardarPartida"
         android:title="@string/txtOpcionGuardar"
         android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="10"
         android:showAsAction="ifRoom|withText"
-        />
+        tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/opcRecuperarPartida"
         android:title="@string/txtOpcionRecuperar"
         android:icon="@android:drawable/ic_menu_revert"
         android:orderInCategory="15"
         android:showAsAction="ifRoom|withText"
-        />
+        tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/opcMejoresResultados"
         android:title="@string/txtOpcionMejoresResultados"

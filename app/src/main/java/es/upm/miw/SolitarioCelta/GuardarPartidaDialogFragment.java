@@ -6,9 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-/**
- * Created by Raquel on 22/10/17.
- */
 
 public class GuardarPartidaDialogFragment extends DialogFragment {
     @Override
@@ -17,7 +14,7 @@ public class GuardarPartidaDialogFragment extends DialogFragment {
         final MainActivity main = (MainActivity) getActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.txtDialogoGuardarPartidaTitulo))
+        builder.setTitle(getString(R.string.txtDialogoConfirmacionTitulo))
                 .setMessage(getString(R.string.txtDialogoGuardarPartidaPregunta))
                 .setPositiveButton(
                         getString(R.string.txtDialogoAfirmativo),

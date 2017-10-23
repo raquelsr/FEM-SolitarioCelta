@@ -25,7 +25,7 @@
         <activity
             android:name=".AcercaDe"
             android:label="@string/aboutText"
-            android:theme="@android:style/Theme.Holo.Dialog">
+            android:theme="@android:style/Theme.Holo.Light.Dialog">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -41,15 +41,15 @@
         <activity android:name=".PartidasGuardadas" />
         <activity
             android:name=".FiltroFichas"
-            android:label="Numero de Fichas"
-            android:theme="@android:style/Theme.Holo.Dialog">
+            android:label="@string/nfichas"
+            android:theme="@android:style/Theme.Holo.Light.Dialog">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".FiltroJugador"
-            android:label="Nombre del jugador"
-            android:theme="@android:style/Theme.Holo.Dialog">
+            android:label="@string/txtNombreJugador"
+            android:theme="@android:style/Theme.Holo.Light.Dialog">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>></activity>

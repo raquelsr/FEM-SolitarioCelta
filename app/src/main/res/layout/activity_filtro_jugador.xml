@@ -11,27 +11,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/background_dark"
-        android:textSize="16dp"
-        android:text="Introduce el nombre del jugador que quieres filtrar:"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:textSize="16sp"
+        android:text="@string/txtFiltroJugador"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        tools:ignore="RtlHardcoded" />
 
     <EditText
         android:id="@+id/edita_jugador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="text"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btn_aceptarjugador"
-        android:layout_width="368dp"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
         android:onClick="aceptarJugador"
-        android:text="Aceptar"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:text="@string/txtAceptar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
 
 </LinearLayout>

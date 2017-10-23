@@ -97,7 +97,7 @@ public class RepositorioPartidasDBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(consultaSQL, null);
-        Partida partida = new Partida();
+        Partida partida = null;
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

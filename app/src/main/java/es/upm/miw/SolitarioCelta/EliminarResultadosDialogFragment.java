@@ -6,9 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-/**
- * Created by Raquel on 21/10/17.
- */
 
 public class EliminarResultadosDialogFragment extends DialogFragment {
 
@@ -19,7 +16,7 @@ public class EliminarResultadosDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder
-                .setTitle(R.string.txtDialogoEliminarResultadosTitulo)
+                .setTitle(R.string.txtDialogoConfirmacionTitulo)
                 .setMessage(R.string.txtDialogoEliminarResultadosPregunta)
                 .setPositiveButton(
                         getString(R.string.txtDialogoAfirmativo),

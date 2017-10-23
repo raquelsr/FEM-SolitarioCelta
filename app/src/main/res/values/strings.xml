@@ -7,8 +7,12 @@
     <string name="txtOpcionGuardar">Guardar Partida</string>
     <string name="txtOpcionRecuperar">Recuperar Partida</string>
     <string name="txtOpcionMejoresResultados">Mejores Resultados</string>
+    <string name="txtNumeroFichas">Número de fichas: </string>
+    <string name="txtDialogoConfirmacionTitulo">Confirmación</string>
     <string name="txtDialogoAfirmativo">Sí</string>
     <string name="txtDialogoNegativo">No</string>
+    <string name="txtAceptar">Aceptar</string>
+    <string name="eliminar">Eliminar</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
@@ -25,35 +29,51 @@
     <string name="prefTituloCategoria1">Datos personales</string>
     <string name="prefTituloNombreJugador">Nombre del jugador</string>
     <string name="keyNombreJugador">nombreJugador</string>
-    <string name="defaultNombreJugador">Raquel</string>
+    <string name="defaultNombreJugador">Player1</string>
     <string name="prefTextoNombreJugador">Pulse para teclear el nombre del jugador</string>
     <string name="prefTituloCategoria2">Ajustes del juego</string>
     <string name="prefTituloColor">Color de fondo</string>
+    <string name="prefSummaryColor">Selecciona el color de fondo para la pantalla principal.</string>
+    <string name="prefTitcolor">Elige color de fondo</string>
     <string name="keyColor">colorFondo</string>
     <string name="defaultColor">#FFFFFF</string>
     <string name="prefTituloTamaño">Tamaño de letra</string>
+    <string name="prefTittamaño">Elige tamaño de letra</string>
+    <string name="prefTamañoSummary">Selecciona el tamaño de letra para la pantalla principal</string>
     <string name="keyTamaño">tamaño</string>
     <string name="defaultTamaño">16</string>
 
 
     <!-- Dialogo Reiniciar -->
-    <string name="txtDialogoReiniciarTitulo">Confirmación</string>
     <string name="txtDialogoReiniciarPregunta">¿Desea reiniciar la partida?</string>
 
     <!-- Dialogo RecuperarPartida -->
-    <string name="txtDialogoRecuperarTitulo">Confirmación</string>
+    <string name="txtDialogoRecuperarTitulo">Recuperar Partida</string>
     <string name="txtDialogoRecuperarPregunta">¿Está seguro que desea recuperar una partida? \nLa partida actual se eliminará.</string>
 
     <!-- Dialogo Eliminar resultados -->
-    <string name="txtDialogoEliminarResultadosTitulo">Confirmación</string>
     <string name="txtDialogoEliminarResultadosPregunta">¿Desea eliminar los mejores resultados?</string>
 
     <!-- Dialogo Guardar partida -->
-    <string name="txtDialogoGuardarPartidaTitulo">Confirmación</string>
     <string name="txtDialogoGuardarPartidaPregunta">¿Desea guardar la partida actual?</string>
 
-    <!-- Dialogo Eliminar resultados -->
-    <string name="txtDialogoEliminarPartidasTitulo">Confirmación</string>
+    <!-- Dialogo Eliminar partidas -->
     <string name="txtDialogoEliminarPartidasPregunta">¿Desea eliminar todas las partidas guardadas?</string>
+
+    <!-- Filtros PopUp -->
+    <string name="txtFiltroJugador">Introduce el nombre del jugador que quieres filtrar:</string>
+    <string name="txtFiltroFichas">Introduce el número de fichas que quieres filtrar:</string>
+    <string name="txtNombreJugador">Nombre del jugador</string>
+
+    <!-- Busquedas -->
+    <string name="fichas">Fichas</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="jugador">Jugador</string>
+    <string name="posicion">Nº</string>
+    <string name="nfichas">Número de fichas</string>
+    <string name="fecha">Fecha</string>
+    <string name="hora">Hora</string>
+    <string name="sin_filtro">Sin Filtro</string>
+    <string name="filtrar_por">Filtrar por:</string>
 
 </resources>

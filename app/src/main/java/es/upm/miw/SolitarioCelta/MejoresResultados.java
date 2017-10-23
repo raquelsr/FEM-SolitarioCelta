@@ -36,7 +36,7 @@ public class MejoresResultados extends Activity {
                 jugador = getIntent().getExtras().getString(key_jugador);
             }
         }
-        mostrarResultadosConFiltro(nfichas,jugador);
+        mostrarResultados(nfichas,jugador);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,17 +53,7 @@ public class MejoresResultados extends Activity {
         return true;
     }
 
-   /* public void mostrarResultados(){
-        ListView lista = (ListView) findViewById(R.id.list_resultados);
-
-        RepositorioResultadoDBHelper db = new RepositorioResultadoDBHelper(getApplicationContext());
-        ArrayList<Resultado> resultados = db.getMejoresResultados();
-
-        ResultadosAdapter adapter = new ResultadosAdapter(getApplicationContext(), resultados);
-        lista.setAdapter(adapter);
-    }*/
-
-    public void mostrarResultadosConFiltro(String nfichas, String jugador){
+    public void mostrarResultados (String nfichas, String jugador){
         ListView lista = (ListView) findViewById(R.id.list_resultados);
 
         RepositorioResultadoDBHelper db = new RepositorioResultadoDBHelper(getApplicationContext());
@@ -74,14 +64,14 @@ public class MejoresResultados extends Activity {
     }
 
     public void dialogResultados(){
-        DialogFragment dialog = (DialogFragment) new EliminarResultadosDialogFragment();
+        DialogFragment dialog = new EliminarResultadosDialogFragment();
         dialog.show(getFragmentManager(), "eliminarResultados");
     }
 
     public void eliminarResultados(){
         RepositorioResultadoDBHelper db = new RepositorioResultadoDBHelper(getApplicationContext());
         db.deleteScore();
-        mostrarResultadosConFiltro("","");
+        mostrarResultados("","");
         Toast.makeText(this, "Resultados eliminados correctamente.", Toast.LENGTH_SHORT).show();
     }
 
@@ -96,7 +86,7 @@ public class MejoresResultados extends Activity {
     }
 
     public void mostrarResultadosSinFiltro(View v){
-        mostrarResultadosConFiltro("","");
+        mostrarResultados("","");
     }
 
     @Override

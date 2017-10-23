@@ -19,9 +19,10 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="Jugador"
+            android:text="@string/jugador"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,9 +30,10 @@
             android:layout_weight="1"
             android:paddingLeft="45dp"
             android:paddingTop="10dp"
-            android:text="Fichas"
+            android:text="@string/fichas"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,9 +41,10 @@
             android:layout_weight="1"
             android:paddingLeft="55dp"
             android:paddingTop="10dp"
-            android:text="Fecha"
+            android:text="@string/fecha"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,9 +52,10 @@
             android:layout_weight="1"
             android:paddingLeft="45dp"
             android:paddingTop="10dp"
-            android:text="Hora"
+            android:text="@string/hora"
             android:textColor="@android:color/background_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlHardcoded,RtlSymmetry" />
     </LinearLayout>
 
 

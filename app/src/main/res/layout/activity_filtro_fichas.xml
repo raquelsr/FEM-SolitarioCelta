@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/background_dark"
-        android:textSize="16dp"
-        android:text="Introduce el número de fichas que quieres filtrar:" />
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/txtFiltroFichas"
+        tools:ignore="RtlHardcoded" />
 
     <EditText
         android:id="@+id/edita_nfichas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="numberSigned" />
+        android:inputType="numberSigned"
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btn_aceptarfichas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="aceptarNFichas"
-        android:text="Aceptar" />
+        android:text="@string/txtAceptar"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:background="@android:color/holo_blue_light"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
 </LinearLayout>

@@ -13,15 +13,19 @@
         <ListPreference
             android:key="@string/keyColor"
             android:title="@string/prefTituloColor"
-            android:dialogTitle="Elige color de fondo."
+            android:dialogTitle="@string/prefTitcolor"
+            android:summary="@string/prefSummaryColor"
             android:entries="@array/colores"
+            android:defaultValue="@string/defaultColor"
             android:entryValues="@array/colores">
         </ListPreference>
 
         <ListPreference
-            android:dialogTitle="Elige tamaño de letra"
+            android:dialogTitle="@string/prefTittamaño"
+            android:summary="@string/prefTamañoSummary"
             android:entries="@array/tamaños"
             android:entryValues="@array/tamaños"
+            android:defaultValue="@string/defaultTamaño"
             android:key="@string/keyTamaño"
             android:title="@string/prefTituloTamaño">
         </ListPreference>

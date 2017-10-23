@@ -6,9 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-/**
- * Created by Raquel on 19/10/17.
- */
 
 public class RecuperarPartidaDialogFragment extends DialogFragment {
 
@@ -25,7 +22,6 @@ public class RecuperarPartidaDialogFragment extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //main.recuperarPartida();
                                 main.mostrarPartidasGuardadas();
                             }
                         }

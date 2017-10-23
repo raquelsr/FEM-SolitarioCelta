@@ -6,17 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-/**
- * Created by Raquel on 22/10/17.
- */
-
 public class FiltroFichas extends Activity {
 
     private static final String key_nfichas= "NFICHAS";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filtro_fichas);
+        setContentView(R.layout.activity_filtro_fichas);
     }
 
     public void aceptarNFichas (View v){

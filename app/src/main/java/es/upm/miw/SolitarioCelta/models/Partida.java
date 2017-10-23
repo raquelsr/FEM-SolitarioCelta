@@ -18,9 +18,6 @@ public class Partida implements Parcelable {
     private String cronometroTxt;
     private String cronometroBase;
 
-    public Partida() {
-
-    }
 
     public Partida(int id, String jugador, String fecha, String hora, int numero_piezas, String estadoPartida, String cronometroTxt, String cronometroBase) {
         this.id = id;

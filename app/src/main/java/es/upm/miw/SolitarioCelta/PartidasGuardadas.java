@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import es.upm.miw.SolitarioCelta.adapters.PartidasAdapter;
 import es.upm.miw.SolitarioCelta.models.Partida;
 import es.upm.miw.SolitarioCelta.models.RepositorioPartidasDBHelper;
-import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
 
 public class PartidasGuardadas extends Activity {
 
@@ -80,7 +79,7 @@ public class PartidasGuardadas extends Activity {
 
 
     public void dialogPartidas(){
-        DialogFragment dialog = (DialogFragment) new EliminarPartidasDialogFragment();
+        DialogFragment dialog = new EliminarPartidasDialogFragment();
         dialog.show(getFragmentManager(), "eliminarPartidas");
     }
 
