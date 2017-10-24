@@ -12,6 +12,7 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
+            android:layout_marginBottom="4sp"
             android:text="@string/jugador"
             android:textColor="@android:color/background_dark"
             tools:ignore="RtlHardcoded,RtlSymmetry" />

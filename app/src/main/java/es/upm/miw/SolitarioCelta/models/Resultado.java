@@ -2,10 +2,6 @@ package es.upm.miw.SolitarioCelta.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-
-import java.sql.Time;
-import java.util.Date;
 
 public class Resultado implements Parcelable, Comparable<Resultado> {
 

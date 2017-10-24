@@ -9,8 +9,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/prefTituloCategoria2">
-        <!-- TODO Añadir otros ajustes -->
-
         <ListPreference
             android:key="@string/keyColor"
             android:title="@string/prefTituloColor"

@@ -33,14 +33,14 @@ import es.upm.miw.SolitarioCelta.models.Resultado;
 
 public class MainActivity extends Activity {
 
-	JuegoCelta juego;
-    private final String GRID_KEY = "GRID_KEY";
-    private final String FICHAS_KEY = "FICHAS_KEY";
-    private final String CRONOMETRO_KEY = "CRONOMETRO_KEY";
+    JuegoCelta juego;
+    private static final String GRID_KEY = "GRID_KEY";
+    private static final String FICHAS_KEY = "FICHAS_KEY";
+    private static final String CRONOMETRO_KEY = "CRONOMETRO_KEY";
 
-    private final String LOG_TAG = "MiW";
-    private static final String fichero = "PartidaGuardada";
-    private static final String ficheroResultado = "ficheroResultados";
+    private static final String LOG_TAG = "MiW";
+    private static final String ficheroPartidasGuardadas = "Partidas_Guardadas";
+    private static final String ficheroResultados = "Resultados";
 
     TextView tv_nfichas;
     Chronometer cronometro;
@@ -53,19 +53,21 @@ public class MainActivity extends Activity {
         cronometro = (Chronometer) findViewById(R.id.cronometro);
 
 
-        if (getIntent().getExtras()!=null){
-            if (getIntent().getExtras().getParcelable("Partida")!=null){
+        if (getIntent().getExtras() != null) {
+            if (getIntent().getExtras().getParcelable("Partida") != null) {
                 Partida partida = getIntent().getExtras().getParcelable("Partida");
-                juego.deserializaTablero(partida.getEstadoPartida());
-                juego.setNumeroFichas(partida.getNumero_piezas());
+                if (partida != null){
+                    juego.deserializaTablero(partida.getEstadoPartida());
+                    juego.setNumeroFichas(partida.getNumero_piezas());
 
-                String[] ms = partida.getCronometroTxt().split(":");
-                long baseTime = SystemClock.elapsedRealtime() - (Integer.valueOf(ms[0])*60000 + Integer.valueOf(ms[1])*1000);
-                cronometro.setBase(baseTime);
+                    String[] ms = partida.getCronometroTxt().split(":");
+                    long baseTime = SystemClock.elapsedRealtime() - (Integer.valueOf(ms[0]) * 60000 + Integer.valueOf(ms[1]) * 1000);
+                    cronometro.setBase(baseTime);
+                }
             }
         }
 
-        if (savedInstanceState!=null){
+        if (savedInstanceState != null) {
             juego.setNumeroFichas(savedInstanceState.getInt(FICHAS_KEY));
             cronometro.setBase(savedInstanceState.getLong(CRONOMETRO_KEY));
         }
@@ -90,57 +92,57 @@ public class MainActivity extends Activity {
         color = Color.WHITE;
         colorLetra = Color.BLACK;
 
-        if (prefColor!=null){
-            if (prefColor.equals("Azul")) {
-                color = Color.CYAN;
-                colorLetra = Color.WHITE;
-            } else if (prefColor.equals("Verde")){
-                color = Color.GREEN;
-                colorLetra = Color.BLACK;
-            } else if (prefColor.equals("Rojo")) {
-                color = Color.RED;
-                colorLetra = Color.WHITE;
-            } else if (prefColor.equals("Amarillo")) {
-                color = Color.YELLOW;
-                colorLetra = Color.BLACK;
-            } else if (prefColor.equals("Rosa")){
-                color = Color.MAGENTA;
-                colorLetra = Color.WHITE;
-            } else if (prefColor.equals("Blanco")) {
-                color = Color.WHITE;
-                colorLetra = Color.BLACK;
-            }
-
-            RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
-            layout.setBackgroundColor(color);
-
-            LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
-            layout1.setBackgroundColor(color);
-
-            LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
-            layout2.setBackgroundColor(color);
-
-            tv_nfichas.setTextColor(colorLetra);
-            cronometro.setTextColor(colorLetra);
+        if (prefColor.equals("Azul")) {
+            color = Color.CYAN;
+            colorLetra = Color.WHITE;
+        } else if (prefColor.equals("Verde")) {
+            color = Color.GREEN;
+            colorLetra = Color.BLACK;
+        } else if (prefColor.equals("Rojo")) {
+            color = Color.RED;
+            colorLetra = Color.WHITE;
+        } else if (prefColor.equals("Amarillo")) {
+            color = Color.YELLOW;
+            colorLetra = Color.BLACK;
+        } else if (prefColor.equals("Rosa")) {
+            color = Color.MAGENTA;
+            colorLetra = Color.WHITE;
+        } else if (prefColor.equals("Blanco")) {
+            color = Color.WHITE;
+            colorLetra = Color.BLACK;
         }
 
-        if (prefTamaño!=null){
-            if (prefTamaño.equals("Grande")){
-                tamaño = 24;
-            } else if (prefTamaño.equals("Pequeño")){
-                tamaño = 10;
-            } else {
-                tamaño = 16;
-            }
-            tv_nfichas.setTextSize(tamaño);
-            cronometro.setTextSize(tamaño);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
+        layout.setBackgroundColor(color);
+
+        LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
+        layout1.setBackgroundColor(color);
+
+        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
+        layout2.setBackgroundColor(color);
+
+        tv_nfichas.setTextColor(colorLetra);
+        cronometro.setTextColor(colorLetra);
+
+
+        if (prefTamaño.equals("Grande")) {
+            tamaño = 24;
+        } else if (prefTamaño.equals("Pequeño")) {
+            tamaño = 10;
+        } else {
+            tamaño = 16;
         }
+
+        tv_nfichas.setTextSize(tamaño);
+        cronometro.setTextSize(tamaño);
+
     }
 
     /**
      * Se ejecuta al pulsar una ficha
      * Las coordenadas (i, j) se obtienen a partir del nombre, ya que el botón
      * tiene un identificador en formato pXY, donde X es la fila e Y la columna
+     *
      * @param v Vista de la ficha pulsada
      */
 
@@ -156,8 +158,7 @@ public class MainActivity extends Activity {
         if (juego.juegoTerminado()) {
             cronometro = (Chronometer) findViewById(R.id.cronometro);
             cronometro.stop();
-            //guardarResultado();
-            guardarResultadoFicheros();
+            guardarResultado();
             new AlertDialogFragment().show(getFragmentManager(), "ALERT_DIALOG");
         }
     }
@@ -184,6 +185,7 @@ public class MainActivity extends Activity {
 
     /**
      * Guarda el estado del tablero (serializado)
+     *
      * @param outState Bundle para almacenar el estado del juego
      */
     public void onSaveInstanceState(Bundle outState) {
@@ -195,6 +197,7 @@ public class MainActivity extends Activity {
 
     /**
      * Recupera el estado del juego
+     *
      * @param savedInstanceState Bundle con el estado del juego almacenado
      */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -234,19 +237,16 @@ public class MainActivity extends Activity {
                 guardarDialog.show(getFragmentManager(), "guardarPartida");
                 return true;
             case R.id.opcRecuperarPartida:
-                if (juego.numeroFichas()!=32){
+                if (juego.numeroFichas() != 32) {
                     DialogFragment recuperarDialog = new RecuperarPartidaDialogFragment();
                     recuperarDialog.show(getFragmentManager(), "recuperar");
                 } else {
-                    mostrarPartidas();
+                    mostrarPartidasGuardadas();
                 }
                 return true;
             case R.id.opcMejoresResultados:
-                mostrarResultadosFicheros();
+                mostrarResultados();
                 return true;
-
-            // TODO!!! resto opciones
-
             default:
                 Toast.makeText(
                         this,
@@ -257,19 +257,17 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    // FICHEROS, FINALMENTE NO SE UTILIZA. SE UTILIZA BBDD.
-    //Guarda partida en fichero, como se ha implementado guardar varias partidas serán guardadas en bbdd
-    public void guardarPartida(){
+    public void guardarPartida() {
         try {
-            FileOutputStream fos = openFileOutput(fichero, Context.MODE_APPEND);
+            FileOutputStream fos = openFileOutput(ficheroPartidasGuardadas, Context.MODE_APPEND);
 
             String cadenaJuego = juego.serializaTablero();
 
             Calendar date = Calendar.getInstance();
-            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH) + 1) + "/" + String.valueOf(date.get(Calendar.YEAR));
             String minutos = (date.get(Calendar.MINUTE)) < 10
                     ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
-                    :  String.valueOf(date.get(Calendar.MINUTE));
+                    : String.valueOf(date.get(Calendar.MINUTE));
 
             String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
 
@@ -296,24 +294,24 @@ public class MainActivity extends Activity {
 
             fos.close();
             Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "Partida guardada");
+            Log.i(LOG_TAG, "Partida guardada.");
         } catch (Exception e) {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
     }
 
-    public void mostrarPartidas(){
+    public void mostrarPartidasGuardadas() {
 
         ArrayList<Partida> partidas = new ArrayList<>();
         try {
 
-            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(ficheroPartidasGuardadas)));
             String linea = fin.readLine();
             while (linea != null) {
 
                 String[] datosJuego = linea.split(";");
-                Partida partida = new Partida (datosJuego[0],datosJuego[1],Integer.valueOf(datosJuego[2]),datosJuego[3],datosJuego[4],datosJuego[5],datosJuego[6]);
+                Partida partida = new Partida(datosJuego[0], datosJuego[1], Integer.valueOf(datosJuego[2]), datosJuego[3], datosJuego[4], datosJuego[5], datosJuego[6]);
                 partidas.add(partida);
                 linea = fin.readLine();
             }
@@ -324,8 +322,8 @@ public class MainActivity extends Activity {
             startActivity(i);
             Log.i(LOG_TAG, "Listado de partidas guardadas.");
 
-        } catch (FileNotFoundException e){
-            Toast.makeText(this, "No existen partidas guardadas.", Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "No existen partidas guardadas áun.", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "No existen partidas guardadas.");
         } catch (Exception e) {
             Log.e(LOG_TAG, "ERROR: " + e);
@@ -333,15 +331,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void guardarResultadoFicheros(){
+    public void guardarResultado() {
         try {
-            FileOutputStream fos = openFileOutput(ficheroResultado, Context.MODE_APPEND);
+            FileOutputStream fos = openFileOutput(ficheroResultados, Context.MODE_APPEND);
 
             Calendar date = Calendar.getInstance();
-            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH) + 1) + "/" + String.valueOf(date.get(Calendar.YEAR));
             String minutos = (date.get(Calendar.MINUTE)) < 10
                     ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
-                    :  String.valueOf(date.get(Calendar.MINUTE));
+                    : String.valueOf(date.get(Calendar.MINUTE));
 
             String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
 
@@ -350,8 +348,6 @@ public class MainActivity extends Activity {
                     getResources().getString(R.string.keyNombreJugador),
                     getResources().getString(R.string.defaultNombreJugador)
             );
-
-
 
             fos.write(jugador.getBytes());
             fos.write(';');
@@ -365,25 +361,23 @@ public class MainActivity extends Activity {
             fos.write('\n');
 
             fos.close();
-            Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "Partida guardada");
         } catch (Exception e) {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
     }
 
-    public void mostrarResultadosFicheros(){
+    public void mostrarResultados() {
 
         ArrayList<Resultado> resultados = new ArrayList<>();
         try {
 
-            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(ficheroResultado)));
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(ficheroResultados)));
             String linea = fin.readLine();
             while (linea != null) {
 
                 String[] datosResultado = linea.split(";");
-                Resultado resultado = new Resultado (datosResultado[0],datosResultado[1],datosResultado[2],Integer.valueOf(datosResultado[3]),datosResultado[4]);
+                Resultado resultado = new Resultado(datosResultado[0], datosResultado[1], datosResultado[2], Integer.valueOf(datosResultado[3]), datosResultado[4]);
                 resultados.add(resultado);
 
                 linea = fin.readLine();
@@ -394,23 +388,24 @@ public class MainActivity extends Activity {
             Intent i = new Intent(this, MejoresResultados.class);
             i.putParcelableArrayListExtra("resultados", resultados);
             startActivity(i);
-            Log.i(LOG_TAG, "Listado de resultados guardadas.");
 
-        } catch (FileNotFoundException e){
-            Toast.makeText(this, "No existen resultados guardadas.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "No existen resultados guardadas.");
+            Log.i(LOG_TAG, "Listado de resultados guardados.");
+
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this, "No existen resultados guardados aún.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "No existen resultados guardados.");
         } catch (Exception e) {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
     }
 
-    public void actualizarNumeroFichas(){
+    public void actualizarNumeroFichas() {
         tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
-        tv_nfichas.setText("Número de fichas: " + (String.valueOf(juego.numeroFichas())));
+        tv_nfichas.setText(getResources().getString(R.string.txtNumeroFichas) + (String.valueOf(juego.numeroFichas())));
     }
 
-    public void actualizarCronometro(long tiempo){
+    public void actualizarCronometro(long tiempo) {
         cronometro.setBase(tiempo);
         cronometro.start();
     }
