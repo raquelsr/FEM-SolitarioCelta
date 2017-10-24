@@ -26,9 +26,10 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 import es.upm.miw.SolitarioCelta.models.Partida;
-import es.upm.miw.SolitarioCelta.models.RepositorioResultadoDBHelper;
+import es.upm.miw.SolitarioCelta.models.Resultado;
 
 public class MainActivity extends Activity {
 
@@ -39,8 +40,9 @@ public class MainActivity extends Activity {
 
     private final String LOG_TAG = "MiW";
     private static final String fichero = "PartidaGuardada";
+    private static final String ficheroResultado = "ficheroResultados";
 
-    RepositorioResultadoDBHelper db_resultados;
+    private SharedPreferences preferencias;
 
     TextView tv_nfichas;
     Chronometer cronometro;
@@ -176,7 +178,8 @@ public class MainActivity extends Activity {
         if (juego.juegoTerminado()) {
             cronometro = (Chronometer) findViewById(R.id.cronometro);
             cronometro.stop();
-            guardarResultado();
+            //guardarResultado();
+            guardarResultadoFicheros();
             new AlertDialogFragment().show(getFragmentManager(), "ALERT_DIALOG");
         }
     }
@@ -261,7 +264,7 @@ public class MainActivity extends Activity {
                 }
                 return true;
             case R.id.opcMejoresResultados:
-                mostrarMejoresResultados();
+                mostrarResultadosFicheros();
                 return true;
 
             // TODO!!! resto opciones
@@ -400,7 +403,7 @@ public class MainActivity extends Activity {
     }
 
 
-    public void guardarResultado(){
+   /* public void guardarResultado(){
         db_resultados = new RepositorioResultadoDBHelper(getApplicationContext());
 
         SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
@@ -419,6 +422,77 @@ public class MainActivity extends Activity {
 
         long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas(), cronometro.getText().toString());
         Log.i("MiW", "");
+    }*/
+
+    public void guardarResultadoFicheros(){
+        try {
+            FileOutputStream fos = openFileOutput(ficheroResultado, Context.MODE_APPEND);
+
+            Calendar date = Calendar.getInstance();
+            String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
+            String minutos = (date.get(Calendar.MINUTE)) < 10
+                    ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
+                    :  String.valueOf(date.get(Calendar.MINUTE));
+
+            String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
+
+            SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+            String jugador = preferencias.getString(
+                    getResources().getString(R.string.keyNombreJugador),
+                    getResources().getString(R.string.defaultNombreJugador)
+            );
+
+
+
+            fos.write(jugador.getBytes());
+            fos.write(';');
+            fos.write(fecha.getBytes());
+            fos.write(';');
+            fos.write(hora.getBytes());
+            fos.write(';');
+            fos.write(String.valueOf(juego.numeroFichas()).getBytes());
+            fos.write(';');
+            fos.write(cronometro.getText().toString().getBytes());
+            fos.write('\n');
+
+            fos.close();
+            Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "Partida guardada");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
+    }
+
+    public void mostrarResultadosFicheros(){
+
+        ArrayList<Resultado> resultados = new ArrayList<>();
+        try {
+
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(ficheroResultado)));
+            String linea = fin.readLine();
+            while (linea != null) {
+
+                String[] datosResultado = linea.split(";");
+                Resultado resultado = new Resultado (datosResultado[0],datosResultado[1],datosResultado[2],Integer.valueOf(datosResultado[3]),datosResultado[4]);
+                resultados.add(resultado);
+
+                linea = fin.readLine();
+            }
+            fin.close();
+
+            Intent i = new Intent(this, MejoresResultados.class);
+            i.putParcelableArrayListExtra("resultados", resultados);
+            startActivity(i);
+            Log.i(LOG_TAG, "Listado de resultados guardadas.");
+
+        } catch (FileNotFoundException e){
+            Toast.makeText(this, "No existen resultados guardadas.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "No existen resultados guardadas.");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
     }
 
 
@@ -441,5 +515,13 @@ public class MainActivity extends Activity {
     public void actualizarCronometro(long tiempo){
         cronometro.setBase(tiempo);
         cronometro.start();
+    }
+
+    private boolean utilizarMemInterna() {
+
+        return !preferencias.getBoolean(
+                getString(R.string.key_TarjetaSD),
+                getResources().getBoolean(R.bool.default_prefTarjetaSD)
+        );
     }
 }

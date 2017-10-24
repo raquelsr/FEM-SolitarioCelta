@@ -2,6 +2,7 @@ package es.upm.miw.SolitarioCelta.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.sql.Time;
 import java.util.Date;
@@ -10,26 +11,20 @@ import java.util.Date;
  * Created by Raquel on 19/10/17.
  */
 
-public class Resultado implements Parcelable {
+public class Resultado implements Parcelable, Comparable<Resultado> {
 
-    private int id;
     private String jugador;
     private String fecha;
     private String hora;
     private int numero_piezas;
     private String tiempo;
 
-    public Resultado(int id, String jugador, String fecha, String hora, int numero_piezas, String tiempo) {
-        this.id = id;
+    public Resultado(String jugador, String fecha, String hora, int numero_piezas, String tiempo) {
         this.jugador = jugador;
         this.fecha = fecha;
         this.hora = hora;
         this.numero_piezas = numero_piezas;
         this.tiempo = tiempo;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getJugador() {
@@ -80,7 +75,6 @@ public class Resultado implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
         dest.writeString(this.jugador);
         dest.writeString(this.fecha);
         dest.writeString(this.hora);
@@ -89,7 +83,6 @@ public class Resultado implements Parcelable {
     }
 
     protected Resultado(Parcel in) {
-        this.id = in.readInt();
         this.jugador = in.readString();
         this.fecha = in.readString();
         this.hora = in.readString();
@@ -108,4 +101,26 @@ public class Resultado implements Parcelable {
             return new Resultado[size];
         }
     };
+
+    @Override
+    public int compareTo(Resultado resultado) {
+        int solf = Integer.compare(this.getNumero_piezas(), resultado.getNumero_piezas());
+        if (solf != 0) {
+            return solf;
+        } else {
+            String[] t1 = tiempo.split(":");
+            int min1 = Integer.valueOf(t1[0]);
+            int seg1 = Integer.valueOf(t1[1]);
+            String[] t2 = resultado.tiempo.split(":");
+            int min2 = Integer.valueOf(t2[0]);
+            int seg2 = Integer.valueOf(t2[1]);
+            int solm = Integer.compare(min1, min2);
+            if (solm != 0) {
+                return solm;
+            } else {
+                int sols = Integer.compare(seg1, seg2);
+                return sols;
+            }
+        }
+    }
 }
