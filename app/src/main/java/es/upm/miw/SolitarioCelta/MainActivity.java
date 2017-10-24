@@ -42,8 +42,6 @@ public class MainActivity extends Activity {
     private static final String fichero = "PartidaGuardada";
     private static final String ficheroResultado = "ficheroResultados";
 
-    private SharedPreferences preferencias;
-
     TextView tv_nfichas;
     Chronometer cronometro;
 
@@ -77,26 +75,6 @@ public class MainActivity extends Activity {
         cronometro.start();
     }
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        String prefColor = pref.getString(getResources().getString(R.string.keyColor), getResources().getString(R.string.defaultColor));
-        String prefTamaño = pref.getString(getResources().getString(R.string.keyTamaño), getResources().getString(R.string.defaultTamaño));
-
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout_main);
-        layout.setBackgroundColor(Color.WHITE);
-
-        LinearLayout layout1 = (LinearLayout) findViewById(R.id.layout_main_1);
-        layout1.setBackgroundColor(Color.WHITE);
-
-        LinearLayout layout2 = (LinearLayout) findViewById(R.id.layout_main_2);
-        layout2.setBackgroundColor(Color.WHITE);
-        tv_nfichas.setTextSize(16);
-        cronometro.setTextSize(16);
-
-    }
-*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -279,31 +257,6 @@ public class MainActivity extends Activity {
         return true;
     }
 
-/*
-    public void guardarPartidaBBDD(){
-        db_partidas = new RepositorioPartidasDBHelper(getApplicationContext());
-
-        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
-        String jugador = preferencias.getString(
-                getResources().getString(R.string.keyNombreJugador),
-                getResources().getString(R.string.defaultNombreJugador)
-        );
-
-        Calendar date = Calendar.getInstance();
-        String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
-        String minutos = (date.get(Calendar.MINUTE)) < 10
-                ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
-                :  String.valueOf(date.get(Calendar.MINUTE));
-
-        String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
-
-        String estado = juego.serializaTablero();
-
-        long id = db_partidas.add(jugador, fecha, hora, juego.numeroFichas(), estado, cronometro.getText().toString(), String.valueOf(cronometro.getBase()));
-        Log.i(LOG_TAG, "Partida guardada en BBDD : id " + String.valueOf(id));
-        Toast.makeText(this, "La partida ha sido guardada con éxito.", Toast.LENGTH_SHORT).show();
-    }
-*/
     // FICHEROS, FINALMENTE NO SE UTILIZA. SE UTILIZA BBDD.
     //Guarda partida en fichero, como se ha implementado guardar varias partidas serán guardadas en bbdd
     public void guardarPartida(){
@@ -350,28 +303,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    //Recupera la partida de ficheros, como se guarda en bbdd, no se utiliza porque se recupera de bbdd
-    /*
-    public void recuperarPartida(){
-        try {
-            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(fichero)));
-            String linea = fin.readLine();
-            if (linea != null) {
-                juego.deserializaTablero(linea);
-                mostrarTablero();
-            }
-            fin.close();
-            Toast.makeText(this, "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "Partida recuperada.");
-        } catch (FileNotFoundException e){
-            Toast.makeText(this, "No existen partidas guardadas.", Toast.LENGTH_SHORT).show();
-            Log.i(LOG_TAG, "No existen partidas guardadas.");
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "ERROR: " + e);
-            e.printStackTrace();
-        }
-    }*/
-
     public void mostrarPartidas(){
 
         ArrayList<Partida> partidas = new ArrayList<>();
@@ -401,28 +332,6 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }
-
-
-   /* public void guardarResultado(){
-        db_resultados = new RepositorioResultadoDBHelper(getApplicationContext());
-
-        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
-        String jugador = preferencias.getString(
-                getResources().getString(R.string.keyNombreJugador),
-                getResources().getString(R.string.defaultNombreJugador)
-        );
-
-        Calendar date = Calendar.getInstance();
-        String fecha = String.valueOf(date.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(date.get(Calendar.MONTH)+1) + "/" + String.valueOf(date.get(Calendar.YEAR));
-        String minutos = (date.get(Calendar.MINUTE)) < 10
-                ? "0".concat(String.valueOf((date.get(Calendar.MINUTE))))
-                :  String.valueOf(date.get(Calendar.MINUTE));
-
-        String hora = String.valueOf(date.get(Calendar.HOUR_OF_DAY)) + ":" + minutos;
-
-        long id = db_resultados.add(jugador, fecha, hora, juego.numeroFichas(), cronometro.getText().toString());
-        Log.i("MiW", "");
-    }*/
 
     public void guardarResultadoFicheros(){
         try {
@@ -481,6 +390,7 @@ public class MainActivity extends Activity {
             }
             fin.close();
 
+            Collections.sort(resultados);
             Intent i = new Intent(this, MejoresResultados.class);
             i.putParcelableArrayListExtra("resultados", resultados);
             startActivity(i);
@@ -495,18 +405,6 @@ public class MainActivity extends Activity {
         }
     }
 
-
-    /*
-    public void mostrarPartidasGuardadas(){
-        Intent intent = new Intent(this, PartidasGuardadas.class);
-        startActivity(intent);
-    }
-*/
-    public void mostrarMejoresResultados(){
-        Intent intent = new Intent(this, MejoresResultados.class);
-        startActivity(intent);
-    }
-
     public void actualizarNumeroFichas(){
         tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
         tv_nfichas.setText("Número de fichas: " + (String.valueOf(juego.numeroFichas())));
@@ -515,13 +413,5 @@ public class MainActivity extends Activity {
     public void actualizarCronometro(long tiempo){
         cronometro.setBase(tiempo);
         cronometro.start();
-    }
-
-    private boolean utilizarMemInterna() {
-
-        return !preferencias.getBoolean(
-                getString(R.string.key_TarjetaSD),
-                getResources().getBoolean(R.bool.default_prefTarjetaSD)
-        );
     }
 }

@@ -24,11 +24,12 @@
 
     <Button
         android:id="@+id/btn_aceptarfichas"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
         android:onClick="aceptarNFichas"
         android:text="@string/txtAceptar"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:background="@android:color/holo_blue_light"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@android:color/background_dark" />
 </LinearLayout>

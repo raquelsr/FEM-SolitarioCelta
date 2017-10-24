@@ -76,13 +76,4 @@
     <string name="sin_filtro">Sin Filtro</string>
     <string name="filtrar_por">Filtrar por:</string>
 
-    <!-- Tarjeta SD -->
-    <string name="key_TarjetaSD">utilizarTarjetaSD</string>
-    <bool   name="default_prefTarjetaSD">false</bool>
-    <string name="txtPrefTarjetaSD">Almacenamiento en tarjeta SD</string>
-    <string name="txtPrefTarjetaSDExplicación">
-            Si se activa esta opción se almacenará la información
-            en la tarjeta SD (si está disponible)
-    </string>
-
 </resources>

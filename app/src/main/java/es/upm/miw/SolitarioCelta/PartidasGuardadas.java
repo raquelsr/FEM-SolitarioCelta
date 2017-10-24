@@ -69,26 +69,6 @@ public class PartidasGuardadas extends Activity {
             }
         });
 
-        /*RepositorioPartidasDBHelper db = new RepositorioPartidasDBHelper(getApplicationContext());
-        final ArrayList<Partida> partidas = db.getAll();
-
-        if (partidas.isEmpty()){
-            Toast.makeText(this, "No hay ninguna partida guardada aún.", Toast.LENGTH_SHORT).show();
-        }
-
-        PartidasAdapter adapter = new PartidasAdapter(getApplicationContext(), partidas);
-        lista.setAdapter(adapter);
-
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int id_partida = partidas.get(position).getId();
-                recuperarPartida(id_partida);
-                Log.i(LOG_TAG,  "Partida recuperada: id " + position);
-                Toast.makeText(getApplicationContext(), "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     public void recuperarPartida(Partida partida){

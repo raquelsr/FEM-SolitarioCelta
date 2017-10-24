@@ -1,7 +1,6 @@
 package es.upm.miw.SolitarioCelta.adapters;
 
 import android.content.Context;
-import android.icu.text.MessagePattern;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,6 @@ import java.util.ArrayList;
 
 import es.upm.miw.SolitarioCelta.R;
 import es.upm.miw.SolitarioCelta.models.Partida;
-import es.upm.miw.SolitarioCelta.models.Resultado;
-
-/**
- * Created by Raquel on 21/10/17.
- */
 
 public class PartidasAdapter extends ArrayAdapter {
 

@@ -3,9 +3,6 @@ package es.upm.miw.SolitarioCelta.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Raquel on 21/10/17.
- */
 
 public class Partida implements Parcelable {
 

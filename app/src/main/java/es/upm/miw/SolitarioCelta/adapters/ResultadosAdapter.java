@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import es.upm.miw.SolitarioCelta.R;
 import es.upm.miw.SolitarioCelta.models.Resultado;
 
-/**
- * Created by Raquel on 20/10/17.
- */
 
 public class ResultadosAdapter extends ArrayAdapter {
 

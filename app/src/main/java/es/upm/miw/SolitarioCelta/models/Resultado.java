@@ -7,10 +7,6 @@ import android.support.annotation.NonNull;
 import java.sql.Time;
 import java.util.Date;
 
-/**
- * Created by Raquel on 19/10/17.
- */
-
 public class Resultado implements Parcelable, Comparable<Resultado> {
 
     private String jugador;

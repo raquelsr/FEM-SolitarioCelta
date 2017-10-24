@@ -60,13 +60,6 @@ public class MejoresResultados extends Activity {
     }
 
     public void mostrarResultados (String nfichas, String jugador){
-        /*ListView lista = (ListView) findViewById(R.id.list_resultados);
-
-        RepositorioResultadoDBHelper db = new RepositorioResultadoDBHelper(getApplicationContext());
-        ArrayList<Resultado> resultados = db.getMejoresResultados(nfichas, jugador);
-
-        ResultadosAdapter adapter = new ResultadosAdapter(getApplicationContext(), resultados);
-        lista.setAdapter(adapter);*/
 
         final ListView lista = (ListView) findViewById(R.id.list_resultados);
         final ArrayList<Resultado> resultadosAll;
@@ -96,7 +89,7 @@ public class MejoresResultados extends Activity {
             resultados = resultadosAll;
         }
 
-        System.out.println("RESULTADOS" + resultados);
+        Collections.sort(resultados);
 
         ResultadosAdapter adapter = new ResultadosAdapter(getApplicationContext(), resultados);
         lista.setAdapter(adapter);
@@ -156,7 +149,6 @@ public class MejoresResultados extends Activity {
 
                 linea = fin.readLine();
             }
-            Collections.sort(resultados);
             fin.close();
 
             Log.i("MiW", "Listado de resultados guardadas.");
