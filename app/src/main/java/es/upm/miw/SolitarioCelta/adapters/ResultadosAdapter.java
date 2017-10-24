@@ -64,6 +64,12 @@ public class ResultadosAdapter extends ArrayAdapter {
 
             TextView tv_tiempo = (TextView) convertView.findViewById(R.id.tv_tiempo);
             tv_tiempo.setText(resultado.getTiempo());
+
+            TextView tv_fecha = (TextView) convertView.findViewById(R.id.tv_fecha);
+            tv_fecha.setText(resultado.getFecha());
+
+            TextView tv_hora = (TextView) convertView.findViewById(R.id.tv_hora);
+            tv_hora.setText(resultado.getHora());
         }
 
         return convertView;
