@@ -93,22 +93,22 @@ public class MainActivity extends Activity {
         colorLetra = Color.BLACK;
 
         if (prefColor.equals("Azul")) {
-            color = Color.CYAN;
+            color = getResources().getColor(R.color.colorAzul);
             colorLetra = Color.WHITE;
         } else if (prefColor.equals("Verde")) {
-            color = Color.GREEN;
+            color = getResources().getColor(R.color.colorVerde);
             colorLetra = Color.BLACK;
         } else if (prefColor.equals("Rojo")) {
-            color = Color.RED;
+            color = getResources().getColor(R.color.colorRojo);
             colorLetra = Color.WHITE;
         } else if (prefColor.equals("Amarillo")) {
-            color = Color.YELLOW;
+            color = getResources().getColor(R.color.colorAmarillo);
             colorLetra = Color.BLACK;
         } else if (prefColor.equals("Rosa")) {
-            color = Color.MAGENTA;
+            color =getResources().getColor(R.color.colorRosa);
             colorLetra = Color.WHITE;
         } else if (prefColor.equals("Blanco")) {
-            color = Color.WHITE;
+            color = getResources().getColor(R.color.colorBlanco);
             colorLetra = Color.BLACK;
         }
 
@@ -402,7 +402,7 @@ public class MainActivity extends Activity {
 
     public void actualizarNumeroFichas() {
         tv_nfichas = (TextView) findViewById(R.id.tv_numeroFichas);
-        tv_nfichas.setText(getResources().getString(R.string.txtNumeroFichas) + (String.valueOf(juego.numeroFichas())));
+        tv_nfichas.setText(getResources().getString(R.string.txtNumeroFichas) + " " + (String.valueOf(juego.numeroFichas())));
     }
 
     public void actualizarCronometro(long tiempo) {
