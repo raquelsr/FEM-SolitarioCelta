@@ -7,12 +7,12 @@
 
         <TextView
             android:id="@+id/tv_Partidajugador"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4sp"
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:layout_marginBottom="4sp"
             android:text="@string/jugador"
             android:textColor="@android:color/background_dark"
             tools:ignore="RtlHardcoded,RtlSymmetry" />
