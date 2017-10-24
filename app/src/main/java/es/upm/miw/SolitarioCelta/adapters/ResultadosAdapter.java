@@ -46,13 +46,13 @@ public class ResultadosAdapter extends ArrayAdapter {
             tv_posicion.setText(String.valueOf(position+1));
 
             if (position == 0){
-                tv_posicion.setBackgroundColor(Color.YELLOW);
+                tv_posicion.setBackgroundColor(getContext().getResources().getColor(R.color.primero));
                 tv_posicion.setTextSize(18);
             } else if (position == 1){
-                tv_posicion.setBackgroundColor(Color.LTGRAY);
+                tv_posicion.setBackgroundColor(getContext().getResources().getColor(R.color.segundo));
                 tv_posicion.setTextSize(18);
             } else if (position == 2){
-                tv_posicion.setBackgroundColor(Color.GRAY);
+                tv_posicion.setBackgroundColor(getContext().getResources().getColor(R.color.tercero));
                 tv_posicion.setTextSize(18);
             }
 

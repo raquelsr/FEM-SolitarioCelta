@@ -6,4 +6,8 @@
     <color name="colorAmarillo">#FAF48A</color>
     <color name="colorRosa">#FF4081</color>
     <color name="colorBlanco">#FFFFFF</color>
+
+    <color name="primero">#F5F24C</color>
+    <color name="segundo">#E49632</color>
+    <color name="tercero">#C0C0C0</color>
 </resources>
