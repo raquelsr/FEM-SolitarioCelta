@@ -362,6 +362,7 @@ public class MainActivity extends Activity {
             fos.write('\n');
 
             fos.close();
+
         } catch (Exception e) {
             Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
