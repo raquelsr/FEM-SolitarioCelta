@@ -18,8 +18,8 @@ public class FiltroFichas extends Activity {
     public void aceptarNFichas (View v){
         EditText edit_nfichas = (EditText) findViewById(R.id.edita_nfichas);
         String nfichas = edit_nfichas.getText().toString();
-        Intent mresultados = new Intent(this, MejoresResultados.class);
-        mresultados.putExtra(key_nfichas, nfichas);
-        startActivity(mresultados);
+        Intent resultados = new Intent(this, MejoresResultados.class);
+        resultados.putExtra(key_nfichas, nfichas);
+        startActivity(resultados);
     }
 }

@@ -22,6 +22,7 @@ import es.upm.miw.SolitarioCelta.models.Partida;
 public class PartidasGuardadas extends Activity {
 
     private static final String LOG_TAG = "MiW";
+    private static final String ficheroPartidasGuardadas = "Partidas_Guardadas";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +53,24 @@ public class PartidasGuardadas extends Activity {
 
         final ArrayList<Partida> partidas = getIntent().getExtras().getParcelableArrayList("partidas");
 
-        if(partidas.isEmpty()){
-            Toast.makeText(this, "No existen partidas", Toast.LENGTH_SHORT).show();
-        }
-
-        PartidasAdapter adapter = new PartidasAdapter(getApplicationContext(), partidas);
-        lista.setAdapter(adapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Partida partida = partidas.get(position);
-                recuperarPartida(partida);
-                Log.i(LOG_TAG,  "Partida recuperada: id " + position);
-                Toast.makeText(getApplicationContext(), "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
+        if (partidas != null) {
+            if(partidas.isEmpty()){
+                Toast.makeText(this, "No existen partidas guardadas aún.", Toast.LENGTH_SHORT).show();
             }
-        });
+
+            PartidasAdapter adapter = new PartidasAdapter(getApplicationContext(), partidas);
+            lista.setAdapter(adapter);
+
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Partida partida = partidas.get(position);
+                    recuperarPartida(partida);
+                    Log.i(LOG_TAG,  "Partida recuperada: id " + position);
+                    Toast.makeText(getApplicationContext(), "La partida ha sido recuperada.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 
@@ -85,12 +88,13 @@ public class PartidasGuardadas extends Activity {
 
     public void eliminarPartidas() {
         try {
-            FileOutputStream fos = openFileOutput("PartidaGuardada", Context.MODE_PRIVATE);
+            FileOutputStream fos = openFileOutput(ficheroPartidasGuardadas, Context.MODE_PRIVATE);
             fos.close();
-            Toast.makeText(this, "El fichero ha sido borrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Se han eliminado todas las partidas guardadas.", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
     }

@@ -33,13 +33,13 @@
     <string name="prefTextoNombreJugador">Pulse para teclear el nombre del jugador</string>
     <string name="prefTituloCategoria2">Ajustes del juego</string>
     <string name="prefTituloColor">Color de fondo</string>
-    <string name="prefSummaryColor">Selecciona el color de fondo para la pantalla principal.</string>
+    <string name="prefSummaryColor">Selecciona el color de fondo de la pantalla principal</string>
     <string name="prefTitcolor">Elige color de fondo</string>
     <string name="keyColor">colorFondo</string>
     <string name="defaultColor">#FFFFFF</string>
     <string name="prefTituloTamaño">Tamaño de letra</string>
     <string name="prefTittamaño">Elige tamaño de letra</string>
-    <string name="prefTamañoSummary">Selecciona el tamaño de letra para la pantalla principal</string>
+    <string name="prefTamañoSummary">Selecciona el tamaño de letra de la pantalla principal</string>
     <string name="keyTamaño">tamaño</string>
     <string name="defaultTamaño">16</string>
 
@@ -52,7 +52,7 @@
     <string name="txtDialogoRecuperarPregunta">¿Está seguro que desea recuperar una partida? \nLa partida actual se eliminará.</string>
 
     <!-- Dialogo Eliminar resultados -->
-    <string name="txtDialogoEliminarResultadosPregunta">¿Desea eliminar los mejores resultados?</string>
+    <string name="txtDialogoEliminarResultadosPregunta">¿Desea eliminar todos los resultados?</string>
 
     <!-- Dialogo Guardar partida -->
     <string name="txtDialogoGuardarPartidaPregunta">¿Desea guardar la partida actual?</string>
@@ -61,8 +61,8 @@
     <string name="txtDialogoEliminarPartidasPregunta">¿Desea eliminar todas las partidas guardadas?</string>
 
     <!-- Filtros PopUp -->
-    <string name="txtFiltroJugador">Introduce el nombre del jugador que quieres filtrar:</string>
-    <string name="txtFiltroFichas">Introduce el número de fichas que quieres filtrar:</string>
+    <string name="txtFiltroJugador">Introduce el nombre del jugador que quieres buscar:</string>
+    <string name="txtFiltroFichas">Introduce el número de fichas que quieres buscar:</string>
     <string name="txtNombreJugador">Nombre del jugador</string>
 
     <!-- Busquedas -->
@@ -75,5 +75,7 @@
     <string name="hora">Hora</string>
     <string name="sin_filtro">Sin Filtro</string>
     <string name="filtrar_por">Filtrar por:</string>
+    <string name="ej_player">Ej: Player</string>
+    <string name="ej_7">Ej: 7</string>
 
 </resources>

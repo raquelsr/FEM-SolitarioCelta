@@ -26,7 +26,10 @@ public class MejoresResultados extends Activity {
 
     private static final String key_nfichas = "NFICHAS";
     private static final String key_jugador = "JUGADOR";
-    private static final String ficheroResultados = "ficheroResultados";
+    private static final String ficheroResultados = "Resultados";
+
+    private static final String LOG_TAG = "MiW";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +72,7 @@ public class MejoresResultados extends Activity {
         ArrayList<Resultado> resultados = new ArrayList<>();
 
         if(resultadosAll.isEmpty()){
-            Toast.makeText(this, "No existen resultados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No existen resultados guardados aún.", Toast.LENGTH_SHORT).show();
         }
 
         if (!nfichas.equals("")){
@@ -90,10 +93,37 @@ public class MejoresResultados extends Activity {
         }
 
         Collections.sort(resultados);
-
         ResultadosAdapter adapter = new ResultadosAdapter(getApplicationContext(), resultados);
         lista.setAdapter(adapter);
 
+    }
+
+    public ArrayList<Resultado> recuperarResultados(){
+
+        ArrayList<Resultado> resultados = new ArrayList<>();
+        try {
+
+            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput(ficheroResultados)));
+            String linea = fin.readLine();
+            while (linea != null) {
+
+                String[] datosResultado = linea.split(";");
+                Resultado resultado = new Resultado (datosResultado[0],datosResultado[1],datosResultado[2],Integer.valueOf(datosResultado[3]),datosResultado[4]);
+                resultados.add(resultado);
+
+                linea = fin.readLine();
+            }
+
+            fin.close();
+
+        } catch (FileNotFoundException e){
+            Toast.makeText(this, "No existen resultados guardados aún.", Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "No existen resultados guardados.");
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
+            e.printStackTrace();
+        }
+        return resultados;
     }
 
     public void dialogResultados(){
@@ -105,13 +135,13 @@ public class MejoresResultados extends Activity {
         try {
             FileOutputStream fos = openFileOutput(ficheroResultados, Context.MODE_PRIVATE);
             fos.close();
-            Toast.makeText(this, "El fichero resultado ha sido borrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Se han eliminado todos los resultados.", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         } catch (Exception e) {
+            Log.e(LOG_TAG, "ERROR: " + e);
             e.printStackTrace();
         }
-        Toast.makeText(this, "Resultados eliminados correctamente.", Toast.LENGTH_SHORT).show();
     }
 
     public void mostrarDialogFichas(View v){
@@ -132,34 +162,5 @@ public class MejoresResultados extends Activity {
     public void onBackPressed() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-    }
-
-    public ArrayList<Resultado> recuperarResultados(){
-
-        ArrayList<Resultado> resultados = new ArrayList<>();
-        try {
-
-            BufferedReader fin = new BufferedReader(new InputStreamReader(openFileInput("ficheroResultados")));
-            String linea = fin.readLine();
-            while (linea != null) {
-
-                String[] datosResultado = linea.split(";");
-                Resultado resultado = new Resultado (datosResultado[0],datosResultado[1],datosResultado[2],Integer.valueOf(datosResultado[3]),datosResultado[4]);
-                resultados.add(resultado);
-
-                linea = fin.readLine();
-            }
-            fin.close();
-
-            Log.i("MiW", "Listado de resultados guardadas.");
-
-        } catch (FileNotFoundException e){
-            Toast.makeText(this, "No existen resultados guardadas.", Toast.LENGTH_SHORT).show();
-            Log.i("MiW", "No existen resultados guardadas.");
-        } catch (Exception e) {
-            Log.e("MiW", "ERROR: " + e);
-            e.printStackTrace();
-        }
-        return resultados;
     }
 }
